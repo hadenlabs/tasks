@@ -33,7 +33,7 @@ dotenv:
   - .env
 
 vars:
-  PROJECT_NAME: base-template
+  PROJECT_NAME: tasks
   ORGANIZATION: hadenlabs
   DOCKER_PLATFORM: linux/amd64
   REVIEWERS: luismayta
