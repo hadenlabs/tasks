@@ -1,3 +1,4 @@
+---
 version: "3"
 
 tasks:
@@ -50,8 +51,7 @@ tasks:
     desc: run pytest.
     run: once
     cmds:
-      - cmd: >-
-          poetry run pytest
+      - cmd: poetry run pytest -s
 
   environment:
     desc: Generate environment python.

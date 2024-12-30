@@ -1,0 +1,66 @@
+version: "3"
+
+tasks:
+  check:
+    desc: Exist packer and dependences
+    run: once
+    deps:
+      - task: check:packer
+
+  check:packer:
+    desc: Exist packer
+    run: once
+    preconditions:
+      - sh: command -v packer
+        msg: "Please Install packer"
+
+  command:
+    desc: make command packer
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - cmd: packer {{.PACKER_COMMAND}} {{.PACKER_DIR}}/{{.REGION}}/arch/{{.ARCH}}/{{.IMAGE}}
+        vars:
+          REGION: us-east-1
+          ARCH: amd64
+
+  init:
+    desc: make packer init
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: command
+        vars:
+          PACKER_COMMAND: init
+
+  build:
+    desc: make packer build
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: command
+        vars:
+          PACKER_COMMAND: build
+
+  validate:
+    desc: make packer validate
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: command
+        vars:
+          PACKER_COMMAND: validate
+
+  fmt:
+    desc: packer fmt
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: command
+        vars:
+          PACKER_COMMAND: fmt
