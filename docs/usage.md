@@ -114,6 +114,7 @@ tasks:
       - >-
         gomplate --file {{.README_TEMPLATE}} --out {{.README_FILE}} --datasource config={{.README_YAML}} --datasource includes={{.README_INCLUDES}}
 
+
       - task: prettier
 
   prettier:
@@ -134,6 +135,7 @@ tasks:
     cmds:
       - >-
         [ -e ".env" ] || cp -rf .env.example .env
+
 
       - task: python:setup
       - task: python:precommit
