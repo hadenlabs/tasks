@@ -54,7 +54,11 @@ requirements: |-
 # Short description of this project
 description: |-
 
-  tasks for project
+  # 📦 Taskfile Templates Repository
+
+  This repository contains reusable **Taskfile templates** to standardize and
+  simplify common tasks like running pre-commit hooks, generating changelogs,
+  creating GitHub releases, and more.
 
 usages:
   - docs/usage.md
