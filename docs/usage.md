@@ -6,33 +6,34 @@ To use the Taskfile templates in your project, include the remote Taskfiles in y
 
 ```yaml
 version: "3"
+
 includes:
   pre-commit:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/pre-commit/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/pre-commit/Taskfile.yml"
   github:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/github/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/github/Taskfile.yml"
   changelog:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/changelog/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/changelog/Taskfile.yml"
   confluence:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/confluence/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/confluence/Taskfile.yml"
   python:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/python/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/python/Taskfile.yml"
   git:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/git/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/git/Taskfile.yml"
   docs:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/docs/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/docs/Taskfile.yml"
   docker:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/docker/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/docker/Taskfile.yml"
   version:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/version/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/version/Taskfile.yml"
   plantuml:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/plantuml/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/plantuml/Taskfile.yml"
   prettier:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/prettier/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/prettier/Taskfile.yml"
   sonar:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/sonar/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/sonar/Taskfile.yml"
   diagrams:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/diagrams/Taskfile.yaml"
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/diagrams/Taskfile.yml"
 
 env:
   DOCKER:
