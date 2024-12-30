@@ -32,6 +32,10 @@ includes:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/prettier/Taskfile.yml"
   sonar:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/sonar/Taskfile.yml"
+  keybase:
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/keybase/Taskfile.yml"
+  multipass:
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/multipass/Taskfile.yml"
   diagrams:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/diagrams/Taskfile.yml"
 
