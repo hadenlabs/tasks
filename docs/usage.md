@@ -36,6 +36,10 @@ includes:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/keybase/Taskfile.yml"
   multipass:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/multipass/Taskfile.yml"
+  ssh:
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/ssh/Taskfile.yml"
+  openssl:
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/openssl/Taskfile.yml"
   diagrams:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/main/diagrams/Taskfile.yml"
 
