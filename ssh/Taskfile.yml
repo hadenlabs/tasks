@@ -38,6 +38,14 @@ tasks:
         vars:
           STAGE: testing
 
+  make:pem:prod:
+    desc: Make pem for stage prod
+    run: once
+    cmds:
+      - task: make
+        vars:
+          STAGE: prod
+
   make:
     desc: generate ssh pem
     run: once
@@ -64,7 +72,9 @@ tasks:
         mkdir -p {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/
       - >-
         mv {{.PROJECT_NAME}}-{{.STAGE}} {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/
+      - >-
         mv {{.PROJECT_NAME}}-{{.STAGE}}.pub {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/
+      - >-
         mv {{.PROJECT_NAME}}-{{.STAGE}}.pem {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/
     status:
       - test -f {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/{{.PROJECT_NAME}}-{{.STAGE}}
@@ -94,3 +104,17 @@ tasks:
       - task: export
         vars:
           STAGE: prod
+
+  make:user:
+    desc: generate ssh pem username
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - >-
+        ssh-keygen -q -m PEM -t rsa -b 4096
+        -C "{{.USERNAME}}" -f {{.USERNAME}} -P ""
+      - >-
+        openssl rsa -in {{.USERNAME}} -outform pem > {{.USERNAME}}.pem
+      - >-
+        chmod 0600 {{.USERNAME}}.pem
