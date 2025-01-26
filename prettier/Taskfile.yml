@@ -51,7 +51,7 @@ tasks:
     desc: Execute prettier using vars
     cmds:
       - >-
-        prettier --config=.ci/linters/prettier.config.js
+        prettier --config=.ci/linters/prettier.config.cjs
         --ignore-path=.ci/linters/.prettierignore
         '{{.FILES_PRETTIER}}'
         --write=true
