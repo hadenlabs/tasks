@@ -10,15 +10,17 @@ All notable changes to this project will be documented in this file. This file u
 
 ### ♻ Code Refactoring
 
+* refactor chglog for implement types ([#4](https://github.com/hadenlabs/tasks/issues/4))
 * change task yaml to yml ([#2](https://github.com/hadenlabs/tasks/issues/2))
 * change name of project to tasks ([#1](https://github.com/hadenlabs/tasks/issues/1))
 
 ### ✨ Features
 
-* implement docs task ([#2](https://github.com/hadenlabs/tasks/issues/2))
-* implement task for ssh ([#3](https://github.com/hadenlabs/tasks/issues/3))
+* implement lint using kubelint ([#4](https://github.com/hadenlabs/tasks/issues/4))
 * implement ssh and openssl ([#3](https://github.com/hadenlabs/tasks/issues/3))
 * implement task to keybase and multipass ([#3](https://github.com/hadenlabs/tasks/issues/3))
+* implement task for ssh ([#3](https://github.com/hadenlabs/tasks/issues/3))
+* implement docs task ([#2](https://github.com/hadenlabs/tasks/issues/2))
 * implement task for applications ([#2](https://github.com/hadenlabs/tasks/issues/2))
 * implement task for packer ([#2](https://github.com/hadenlabs/tasks/issues/2))
 
