@@ -22,15 +22,20 @@ tasks:
         msg: "Please Install tfenv"
 
   check:vars:
-    desc: Exist Terraform
+    desc: Exist aws vars
     run: once
     preconditions:
-      - sh: test -v TERRAFORM_PATH
-        msg: "Please add var environment TERRAFORM_PATH"
       - sh: test -v AWS_PROFILE_NAME
         msg: "Please add var environment AWS_PROFILE_NAME"
       - sh: test {{.AWS_PROFILE_NAME}} == {{.ORGANIZATION}}
         msg: "Please load var environment AWS of {{.ORGANIZATION}}"
+
+  check:vars:docs:
+    desc: Exist Terraform vars
+    run: once
+    preconditions:
+      - sh: test -v TERRAFORM_PATH
+        msg: "Please add var environment TERRAFORM_PATH"
 
   environment:
     desc: Generate environment terraform.
@@ -44,7 +49,7 @@ tasks:
     desc: generate docs using docs
     deps:
       - task: check
-      - task: check:vars
+      - task: check:vars:docs
     cmds:
       - >-
         terraform-docs markdown {{ .TERRAFORM_PATH }}/{{.REGION}}/{{.STAGE}} --config=.ci/config/.terraform-docs.yml
