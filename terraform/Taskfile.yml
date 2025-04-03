@@ -25,6 +25,8 @@ tasks:
     desc: Exist Terraform
     run: once
     preconditions:
+      - sh: test -v TERRAFORM_PATH
+        msg: "Please add var environment TERRAFORM_PATH"
       - sh: test -v AWS_PROFILE_NAME
         msg: "Please add var environment AWS_PROFILE_NAME"
       - sh: test {{.AWS_PROFILE_NAME}} == {{.ORGANIZATION}}
@@ -42,9 +44,18 @@ tasks:
     desc: generate docs using docs
     deps:
       - task: check
+      - task: check:vars
     cmds:
       - >-
-        terraform-docs markdown provision/terraform/{{.REGION}}/{{.STAGE}} --config=.ci/config/.terraform-docs.yml
+        terraform-docs markdown {{ .TERRAFORM_PATH }}/{{.REGION}}/{{.STAGE}} --config=.ci/config/.terraform-docs.yml
+
+  docs:root:
+    desc: generate docs using docs for root
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: command
 
   docs:core:
     desc: generate docs using docs for core

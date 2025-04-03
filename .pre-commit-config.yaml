@@ -1,6 +1,9 @@
 ci:
   autoupdate_schedule: monthly
 
+default_language_version:
+  node: 18.19.1
+
 default_stages:
   - pre-commit
 exclude: >
@@ -11,6 +14,7 @@ exclude: >
     .+\.terraform.*$|
     .+\.venv.*$|
     .+\.lock$|
+    .+\.mdx$|
   )$
 
 repos:
@@ -30,7 +34,7 @@ repos:
             go.sum|
           )$
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.19.0
+    rev: v9.20.0
     hooks:
       - id: commitlint
         stages: [commit-msg]
@@ -65,10 +69,10 @@ repos:
       - id: file-contents-sorter
       - id: fix-encoding-pragma
       - id: sort-simple-yaml
-  - repo: https://github.com/hadenlabs/pre-commit-hooks
-    rev: e50751c9323b0a03f27271c57513f5c389f6591b
+
+  - repo: https://github.com/tcort/markdown-link-check
+    rev: v3.12.2
     hooks:
-      - id: do-not-commit
       - id: markdown-link-check
         args:
           - --config=.ci/linters/markdown-link-config.json
@@ -80,6 +84,10 @@ repos:
             .+\.tpl.md$|
           )$
 
+  - repo: https://github.com/hadenlabs/pre-commit-hooks
+    rev: e50751c9323b0a03f27271c57513f5c389f6591b
+    hooks:
+      - id: do-not-commit
       - id: shellcheck
         exclude: >
           (?x)^(

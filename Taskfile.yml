@@ -40,6 +40,7 @@ vars:
   PYTHON_VERSION: 3.11.5
   NODE_VERSION: v20.18.3
   TERRAFORM_VERSION: 1.10.5
+  TERRAFORM_PATH: ./
   GIT_IGNORES: python,node,go,zsh,sonar,java,maven,intellij+all,terraform,linux
   GOLANGCI_VERSION: 1.42.0
   README_FILE: README.md
