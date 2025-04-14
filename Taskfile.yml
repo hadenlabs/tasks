@@ -2,16 +2,16 @@
 version: "3"
 
 includes:
-  changelog: ./provision/task/changelog.yml
-  confluence: ./provision/task/confluence.yml
-  python: ./provision/task/python.yml
-  git: ./provision/task/git.yml
-  docs: ./provision/task/docs.yml
-  docker: ./provision/task/docker.yml
-  version: ./provision/task/version.yml
-  plantuml: ./provision/task/plantuml.yml
-  prettier: ./provision/task/prettier.yml
-  sonar: ./provision/task/sonar.yml
+  changelog: ./src/changelog/Taskfile.yml
+  confluence: ./src/confluence/Taskfile.yml
+  python: ./src/python/Taskfile.yml
+  git: ./src/git/Taskfile.yml
+  docs: ./src/docs/Taskfile.yml
+  docker: ./src/docker/Taskfile.yml
+  version: ./src/version/Taskfile.yml
+  plantuml: ./src/plantuml/Taskfile.yml
+  prettier: ./src/prettier/Taskfile.yml
+  sonar: ./src/sonar/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
 
 env:
@@ -28,6 +28,7 @@ env:
   README_YAML: provision/generators/README.yaml
   README_TEMPLATE: provision/templates/README.tpl.md
   README_INCLUDES: file://
+  TERRAFORM_PATH: ./
 
 dotenv:
   - .env
@@ -39,10 +40,9 @@ vars:
   REVIEWERS: luismayta
   PYTHON_VERSION: 3.11.5
   NODE_VERSION: v20.18.3
-  TERRAFORM_VERSION: 1.10.5
-  TERRAFORM_PATH: ./
   GIT_IGNORES: python,node,go,zsh,sonar,java,maven,intellij+all,terraform,linux
   GOLANGCI_VERSION: 1.42.0
+  TERRAFORM_VERSION: 1.10.5
   README_FILE: README.md
   GIT_IGNORES_CUSTOM: |
     bin
@@ -57,6 +57,8 @@ vars:
     *.zip
     .external_modules
     vendor
+    charts
+    .DS_Store
 
 tasks:
   default:

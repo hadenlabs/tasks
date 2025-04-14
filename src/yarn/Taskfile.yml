@@ -6,7 +6,7 @@ tasks:
     run: once
     deps:
       - task: check:yarn
-      - task: check:nvm
+      - task: check:fnm
 
   check:yarn:
     desc: Exist Yarn
@@ -15,12 +15,12 @@ tasks:
       - sh: command -v yarn
         msg: "Please Install yarn"
 
-  check:nvm:
+  check:fnm:
     desc: Exist Nvm
     run: once
     preconditions:
-      - sh: test "command -v nvm"
-        msg: "Please Install nvm"
+      - sh: test "command -v fnm"
+        msg: "Please Install fnm"
 
   setup:
     desc: Setup yarn dependences.
@@ -39,9 +39,9 @@ tasks:
       - task: check:yarn
 
   environment:
-    desc: Setup environment nvm version node.
+    desc: Setup environment fnm version node.
     run: once
     cmds:
-      - nvm use {{.NODE_VERSION}}
+      - fnm use {{.NODE_VERSION}}
     deps:
       - task: check

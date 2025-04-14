@@ -54,6 +54,15 @@ tasks:
       - >-
         terraform-docs markdown {{ .TERRAFORM_PATH }}/{{.REGION}}/{{.STAGE}} --config=.ci/config/.terraform-docs.yml
 
+  doc:
+    desc: generate docs using docs
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - >-
+        terraform-docs {{.TERRAFORM_PATH}} --config=.ci/config/.terraform-docs.yml
+
   docs:root:
     desc: generate docs using docs for root
     run: once
