@@ -36,7 +36,7 @@ tasks:
           --rm
           --workdir /data
           -v {{.PWD}}:/data
-          infosisarg/plantuml {{.FILES_PLANTUML}}
+          hadenlabs/plantuml {{.FILES_PLANTUML}}
         vars:
           FILES_PLANTUML:
             sh: >-
