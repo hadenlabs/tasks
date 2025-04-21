@@ -567,4 +567,6 @@ TMP_CHANGELOG.md
 *.zip
 .external_modules
 vendor
+charts
+.DS_Store
 
