@@ -90,7 +90,6 @@ tasks:
       - docs:check
 
   readme:
-    run: once
     desc: Generate Readme
     silent: true
     cmds:
@@ -102,7 +101,6 @@ tasks:
       - task: prettier
 
   prettier:
-    run: once
     desc: Execute prettier files
     cmds:
       - task: prettier:all

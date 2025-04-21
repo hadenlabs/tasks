@@ -2,34 +2,247 @@
 version: "3"
 
 tasks:
-  changelog-lint:
-    desc: "Lint the changelog"
-    cmds:
-      - antsibull-changelog lint
+  check:
+    desc: Exist ansible and dependences
+    run: once
+    deps:
+      - task: check:ansible
 
-  changelog-release:
-    desc: "Generate the changelog release"
-    cmds:
-      - antsibull-changelog release --version $NEXT_VERSION
+  check:ansible:
+    desc: Exist Ansible
+    run: once
+    preconditions:
+      - sh: command -v ansible
+        msg: "Please Install ansible"
 
-  lint-ansible:
-    desc: "Run Ansible Lint"
-    cmds:
-      - |
-        echo "Running ansible-lint."
-        ansible-lint --force-color -c .hooks/linters/ansible-lint.yaml
-    silent: true
+  check:vars:
+    desc: Exist vars
+    run: once
+    preconditions:
+      - sh: test -v KEYBASE_PROJECT_PATH
+        msg: "Please add var environment KEYBASE_PROJECT_PATH"
+      - sh: test -v ANSIBLE_PATH
+        msg: "Please add var environment ANSIBLE_PATH"
 
-  run-molecule-tests:
-    desc: "Run Molecule tests for all roles"
+  vault:
+    desc: vault command
+    deps:
+      - task: check
     cmds:
-      - |
-        mkdir -p logs
-        export ANSIBLE_CONFIG=$(pwd)/ansible.cfg
-        for role in roles/*; do
-          if [[ -d "$role" ]]; then
-            echo "Running molecule tests for role $role"
-            (cd "$role" && molecule test) | tee -a logs/molecule_tests.log || exit 1
-          fi
-        done
-    silent: true
+      - >
+        poetry run ansible-vault {{ .ANSIBLE_COMMAND }}
+        {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
+        --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
+
+  encrypt:inventory:
+    desc: encrypt inventory
+    deps:
+      - task: check
+    cmds:
+      - task: vault
+        vars:
+          ANSIBLE_COMMAND: encrypt
+
+  encrypt:inventory:core:
+    desc: encrypt inventory core
+    cmds:
+      - task: encrypt:inventory
+        vars:
+          INVENTORY: all
+          STAGE: core
+
+  encrypt:inventory:dev:
+    desc: encrypt inventory dev
+    cmds:
+      - task: encrypt:inventory
+        vars:
+          INVENTORY: all
+          STAGE: dev
+
+  encrypt:inventory:staging:
+    desc: encrypt inventory staging
+    cmds:
+      - task: encrypt:inventory
+        vars:
+          INVENTORY: all
+          STAGE: staging
+
+  encrypt:inventory:prod:
+    desc: encrypt inventory prod
+    cmds:
+      - task: encrypt:inventory
+        vars:
+          INVENTORY: all
+          STAGE: prod
+
+  decrypt:inventory:
+    desc: decrypt inventory
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: vault
+        vars:
+          ANSIBLE_COMMAND: decrypt
+
+  encrypt:vars:
+    desc: encrypt vars
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: vault
+        vars:
+          ANSIBLE_COMMAND: encrypt
+          FILE_SECRET: vars/all.yml
+
+  decrypt:vars:
+    desc: deencrypt vars
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: vault
+        vars:
+          ANSIBLE_COMMAND: decrypt
+          FILE_SECRET: vars/all.yml
+
+  update:
+    desc: install or update roles
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - >
+        poetry run ansible-galaxy
+        install
+        -r {{.ANSIBLE_PATH}}/{{.STAGE}}/requirements.yml
+        --roles-path {{.ANSIBLE_PATH}}/{{.STAGE}}/roles/contrib --force
+
+  update:core:
+    desc: install or update roles stage core
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: update
+        vars:
+          STAGE: core
+
+  update:sandbox:
+    desc: install or update roles stage sandbox
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: update
+        vars:
+          STAGE: sandbox
+
+  update:dev:
+    desc: install or update roles stage dev
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: update
+        vars:
+          STAGE: dev
+
+  update:staging:
+    desc: install or update roles stage staging
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: update
+        vars:
+          STAGE: staging
+
+  update:prod:
+    desc: install or update roles stage prod
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: update
+        vars:
+          STAGE: prod
+
+  command:
+    desc: make command ansible
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - >
+        poetry run ansible-vault {{.ANSIBLE_COMMAND}}
+          {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/all.yml
+          --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
+
+  management:
+    desc: execute playbook ansible management
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - cmd: >
+          poetry run ansible-playbook -vvvv {{.ANSIBLE_PATH}}/{{.STAGE}}/managements.yml
+          -i {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
+          --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
+          --tags configuration,{{.TAGS}}
+        vars:
+          INVENTORY: all
+
+  playbook:
+    desc: execute playbook ansible
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - >
+        poetry run ansible-playbook -v {{.ANSIBLE_PATH}}/{{.STAGE}}/{{.PLAYBOOK}}.yml
+        -i {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
+        --user={{.USER}}
+        --private-key={{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/{{.PROJECT_NAME}}.pem
+        --tags configuration,{{.TAGS}}
+
+  playbook:sandbox:
+    desc: execute playbook stage sandbox
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: playbook
+        vars:
+          STAGE: sandbox
+
+  playbook:dev:
+    desc: execute playbook stage dev
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: playbook
+        vars:
+          STAGE: dev
+
+  playbook:staging:
+    desc: execute playbook stage staging
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: playbook
+        vars:
+          STAGE: staging
+
+  playbook:prod:
+    desc: execute playbook stage prod
+    run: once
+    deps:
+      - task: check
+    cmds:
+      - task: playbook
+        vars:
+          STAGE: prod

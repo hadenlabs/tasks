@@ -1,0 +1,38 @@
+version: "3"
+
+tasks:
+  check:
+    desc: Exist lua and dependences
+    run: once
+    deps:
+      - task: check:lua
+      - task: check:luarocks
+
+  check:lua:
+    desc: Exist lua
+    run: once
+    preconditions:
+      - sh: command -v lua
+        msg: "Please Install lua"
+
+  check:luarocks:
+    desc: Exist luarocks
+    run: once
+    preconditions:
+      - sh: command -v luarocks
+        msg: "Please Install luarocks"
+
+  setup:
+    desc: Setup lua dependences.
+    run: once
+    cmds:
+      - luarocks install luaunit
+    deps:
+      - task: check:lua
+
+  test:
+    desc: run luatest.
+    run: once
+    cmds:
+      - cmd: >-
+          lua tests/lua/test.lua
