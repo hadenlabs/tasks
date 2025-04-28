@@ -46,6 +46,13 @@ tasks:
     deps:
       - task: check:gradle
 
+  test:
+    desc: Test gradle packages.
+    cmds:
+      - gradle test
+    deps:
+      - task: check:gradle
+
   run:
     desc: Run gradle.
     run: once

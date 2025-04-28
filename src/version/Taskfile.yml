@@ -11,16 +11,16 @@ tasks:
     desc: "Increase major version"
     run: once
     cmds:
-      - poetry version major
+      - "{{ .PYTHON_PACKAGE_MANAGER }} version major"
 
   minor:
     desc: "Increase minor version"
     run: once
     cmds:
-      - poetry version minor
+      - "{{ .PYTHON_PACKAGE_MANAGER }} version minor"
 
   patch:
     desc: "Increase patch version"
     run: once
     cmds:
-      - poetry version patch
+      - "{{ .PYTHON_PACKAGE_MANAGER }} version patch"

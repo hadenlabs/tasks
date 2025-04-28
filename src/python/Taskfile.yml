@@ -1,13 +1,16 @@
 ---
 version: "3"
 
+vars:
+  PYTHON_PACKAGE_MANAGER: uv
+
 tasks:
   check:
     desc: Exist python and dependences
     run: once
     deps:
       - task: check:python
-      - task: check:poetry
+      - task: check:package_manager
       - task: check:precommit
 
   check:python:
@@ -17,58 +20,58 @@ tasks:
       - sh: command -v python
         msg: "Please Install python"
 
-  check:poetry:
-    desc: Exist Poetry
+  check:package_manager:
+    desc: Exist Package Manager
     run: once
     preconditions:
-      - sh: command -v poetry
-        msg: "Please Install poetry"
+      - sh: command -v {{ .PYTHON_PACKAGE_MANAGER }}
+        msg: "Please Install {{ .PYTHON_PACKAGE_MANAGER }}"
 
   check:precommit:
     desc: Exist pre-commit
     run: once
     preconditions:
-      - sh: test "poetry run command -v pre-commit"
+      - sh: test "{{ .PYTHON_PACKAGE_MANAGER }} run command -v pre-commit"
         msg: "Please Install pre-commit"
 
   setup:
     desc: Setup python dependences.
     run: once
     cmds:
-      - poetry install --with dev
+      - "{{ .PYTHON_PACKAGE_MANAGER }} install --with dev"
     deps:
       - task: check:python
-      - task: check:poetry
+      - task: check:package_manager
 
   fmt:
     desc: format black python.
     run: once
     cmds:
       - cmd: >-
-          poetry run black ./ {{.CLI_ARGS}}
+          {{ .PYTHON_PACKAGE_MANAGER }} run black ./ {{.CLI_ARGS}}
 
   test:
     desc: run pytest.
     run: once
     cmds:
-      - cmd: poetry run pytest -s
+      - cmd: "{{ .PYTHON_PACKAGE_MANAGER }} run pytest -s"
 
   environment:
     desc: Generate environment python.
     run: once
     cmds:
-      - poetry env info || poetry install
+      - "{{ .PYTHON_PACKAGE_MANAGER }} python install"
     deps:
       - task: check:python
-      - task: check:poetry
+      - task: check:package_manager
 
   precommit:
     desc: Install pre-commit.
     run: once
     cmds:
-      - poetry run pre-commit install
-      - poetry run pre-commit install -t pre-push
-      - poetry run pre-commit install -t commit-msg
-      - poetry run pre-commit install -t prepare-commit-msg
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run pre-commit install"
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run pre-commit install -t pre-push"
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run pre-commit install -t commit-msg"
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run pre-commit install -t prepare-commit-msg"
     deps:
       - task: check

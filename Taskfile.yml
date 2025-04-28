@@ -4,6 +4,7 @@ version: "3"
 includes:
   changelog: ./src/changelog/Taskfile.yml
   confluence: ./src/confluence/Taskfile.yml
+  uv: ./src/uv/Taskfile.yml
   python: ./src/python/Taskfile.yml
   git: ./src/git/Taskfile.yml
   docs: ./src/docs/Taskfile.yml
@@ -25,6 +26,7 @@ env:
     sh: node --version 2> /dev/null || echo "not exist"
   APP_TAG:
     sh: git describe --tags $(git rev-list --tags --max-count=1) 2> /dev/null || echo "0.0.0"
+  PYTHON_PACKAGE_MANAGER: uv
   README_YAML: provision/generators/README.yaml
   README_TEMPLATE: provision/templates/README.tpl.md
   README_INCLUDES: file://
@@ -44,6 +46,8 @@ vars:
   GOLANGCI_VERSION: 1.42.0
   TERRAFORM_VERSION: 1.10.5
   README_FILE: README.md
+  ANSIBLE_COLLECTIONS: |
+    community.sops
   GIT_IGNORES_CUSTOM: |
     bin
     .scannerwork
@@ -84,7 +88,7 @@ tasks:
   check:
     desc: "Check all dependencies"
     deps:
-      - python:check
+      - uv:check
       - changelog:check
       - git:check
       - docs:check
@@ -108,16 +112,16 @@ tasks:
   upgrade:
     desc: Execute upgrade packages
     cmds:
-      - poetry update
-      - poetry run pre-commit autoupdate
+      - uv update
+      - uv run pre-commit autoupdate
 
   setup:
     desc: Setup dependences of project
     cmds:
       - >-
         [ -e ".env" ] || cp -rf .env.example .env
-      - task: python:setup
-      - task: python:precommit
+      - task: uv:setup
+      - task: uv:precommit
       - task: git:setup
 
   test:
@@ -129,4 +133,4 @@ tasks:
   environment:
     desc: Setup environment of project
     cmds:
-      - task: python:environment
+      - task: uv:environment

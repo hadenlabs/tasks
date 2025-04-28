@@ -1,0 +1,48 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist molecule and dependences
+    run: once
+    deps:
+      - task: check:molecule
+
+  check:molecule:
+    desc: Exist module molecule
+    run: once
+    preconditions:
+      - sh: test "{{ .PYTHON_PACKAGE_MANAGER }} run command -v molecule"
+        msg: "Please Install molecule"
+
+  test:
+    desc: run test molecule.
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run molecule test --scenario-name={{.SCENARIO}} --destroy=always"
+    deps:
+      - task: check
+
+  test:all:
+    desc: run test molecule.
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run molecule test --all --destroy=always"
+    deps:
+      - task: check
+
+  scenario:
+    desc: create scenario molecule.
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run molecule init scenario {{.SCENARIO}} --driver-name=ec2 --provisioner-name=ansible --role-name={{ .PROJECT_NAME }}"
+    deps:
+      - task: check
+
+  scenario:test:
+    desc: run test molecule with scenario.
+    run: once
+    cmds:
+      - task: test
+    deps:
+      - task: check

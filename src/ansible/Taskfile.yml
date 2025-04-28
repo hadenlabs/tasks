@@ -30,7 +30,7 @@ tasks:
       - task: check
     cmds:
       - >
-        poetry run ansible-vault {{ .ANSIBLE_COMMAND }}
+        {{ .PYTHON_PACKAGE_MANAGER }} run ansible-vault {{ .ANSIBLE_COMMAND }}
         {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
         --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
 
@@ -107,14 +107,24 @@ tasks:
           ANSIBLE_COMMAND: decrypt
           FILE_SECRET: vars/all.yml
 
+  collection:
+    desc: install or update collection
+    deps:
+      - task: check
+    cmds:
+      - >
+        {{ .PYTHON_PACKAGE_MANAGER }} run ansible-galaxy
+        collection install {{ .ANSIBLE_COLLECTIONS }}
+
   update:
     desc: install or update roles
     run: once
     deps:
       - task: check
+      - task: collection
     cmds:
       - >
-        poetry run ansible-galaxy
+        {{ .PYTHON_PACKAGE_MANAGER }} run ansible-galaxy
         install
         -r {{.ANSIBLE_PATH}}/{{.STAGE}}/requirements.yml
         --roles-path {{.ANSIBLE_PATH}}/{{.STAGE}}/roles/contrib --force
@@ -176,9 +186,9 @@ tasks:
       - task: check
     cmds:
       - >
-        poetry run ansible-vault {{.ANSIBLE_COMMAND}}
-          {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/all.yml
-          --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
+        {{ .PYTHON_PACKAGE_MANAGER }} run ansible-vault {{.ANSIBLE_COMMAND}}
+         {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/all.yml
+         --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
 
   management:
     desc: execute playbook ansible management
@@ -187,7 +197,7 @@ tasks:
       - task: check
     cmds:
       - cmd: >
-          poetry run ansible-playbook -vvvv {{.ANSIBLE_PATH}}/{{.STAGE}}/managements.yml
+          {{ .PYTHON_PACKAGE_MANAGER }} run ansible-playbook -vvvv {{.ANSIBLE_PATH}}/{{.STAGE}}/managements.yml
           -i {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
           --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
           --tags configuration,{{.TAGS}}
@@ -201,7 +211,7 @@ tasks:
       - task: check
     cmds:
       - >
-        poetry run ansible-playbook -v {{.ANSIBLE_PATH}}/{{.STAGE}}/{{.PLAYBOOK}}.yml
+        {{ .PYTHON_PACKAGE_MANAGER }} run ansible-playbook -v {{.ANSIBLE_PATH}}/{{.STAGE}}/{{.PLAYBOOK}}.yml
         -i {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
         --user={{.USER}}
         --private-key={{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/{{.PROJECT_NAME}}.pem
