@@ -22,6 +22,10 @@ This repository contains reusable **Taskfile templates** to standardize and simp
 
 ## Requirements
 
+This is a list of var environment requireds:
+
+- `TASK_X_REMOTE_TASKFILES=1`: Enabled Tasks Remote
+
 This is a list of plugins that need to be installed previously to enjoy all the goodies of this configuration:
 
 - [gomplate](https://github.com/hairyhenderson/gomplate)
