@@ -20,7 +20,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: packer {{.PACKER_COMMAND}} {{.PACKER_DIR}}/{{.REGION}}/arch/{{.ARCH}}/{{.IMAGE}}
+      - cmd: packer {{.PACKER_COMMAND}} {{.PACKER_PATH}}/{{.REGION}}/arch/{{.ARCH}}/{{.IMAGE}}
         vars:
           REGION: us-east-1
           ARCH: amd64

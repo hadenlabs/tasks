@@ -54,6 +54,13 @@ tasks:
       - >-
         terraform-docs markdown {{ .TERRAFORM_PATH }}/{{.REGION}}/{{.STAGE}} --config=.ci/config/.terraform-docs.yml
 
+  fmt:
+    desc: format terraform
+    run: once
+    cmds:
+      - cmd: >-
+          terraform fmt -recursive
+
   doc:
     desc: generate docs using docs
     run: once

@@ -44,7 +44,7 @@ vars:
   NODE_VERSION: v20.18.3
   GIT_IGNORES: python,node,go,zsh,sonar,java,maven,intellij+all,terraform,linux
   GOLANGCI_VERSION: 1.42.0
-  TERRAFORM_VERSION: 1.10.5
+  TERRAFORM_VERSION: 1.11.4
   README_FILE: README.md
   ANSIBLE_COLLECTIONS: |
     community.sops
