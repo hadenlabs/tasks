@@ -10,18 +10,30 @@ requires-python = ">=3.9"
 keywords = []
 authors = [{ name = "Luis Mayta", email = "luis@hadenlabs.com" }]
 repository = "https://github.com/hadenlabs/tasks"
+classifiers = [
+  # https://pypi.org/classifiers/
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+dependencies = ["boto3>=1.26.130"]
 
 [project.urls]
 Source = "https://github.com/hadenlabs/tasks"
 Tracker = "https://github.com/hadenlabs/tasks/issues"
 
-dependencies = ["python>=3.9,<3.12", "boto3>=1.26.130"]
-
 [dependency-groups]
 
 dev = [
   "bump-pydantic>=0.6.1",
-  "bumpversion>=0.6.0",
+  "bump-my-version>=1.1.2",
   "greenlet>=2.0.2",
   "ipdb>=0.13.13",
   "requests",
@@ -150,6 +162,30 @@ ignore_missing_imports = true
 [tool.coverage.run]
 omit = ["tests/*"]
 
-[tool.poetry_bumpversion.file."sonar-project.properties"]
+[tool.bumpversion]
+current_version = "1.0.0"
+parse = '''
+(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)
+(?:-(?P<pre_release>(alpha|beta|rc))\.(?P<pre_release_number>\d+))?
+'''
+serialize = [
+  "{major}.{minor}.{patch}-{pre_release}.{pre_release_number}",
+  "{major}.{minor}.{patch}",
+]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+tag = false
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = false
+message = "Bump version: {current_version} → {new_version}"
+commit_args = ""
+
+[[tool.bumpversion.files]]
+filename = "sonar-project.properties"
 search = 'sonar.projectVersion={current_version}'
 replace = 'sonar.projectVersion={new_version}'

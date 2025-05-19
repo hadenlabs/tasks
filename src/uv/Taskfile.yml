@@ -54,16 +54,16 @@ tasks:
       - task: check:uv
 
   fmt:
-    desc: format black ruff
+    desc: format ruff
     run: once
     cmds:
       - cmd: >-
-          uv run ruff format --diff ./ {{.CLI_ARGS}}
+          uv run ruff format ./ {{.CLI_ARGS}}
 
   lint:
     desc: Lint with ruff
     cmds:
-      - uv run ruff check --diff src tests
+      - uv run ruff check ./ {{.CLI_ARGS}}
       - task: mypy
 
   test:

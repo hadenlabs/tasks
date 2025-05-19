@@ -11,16 +11,22 @@ tasks:
     desc: "Increase major version"
     run: once
     cmds:
-      - "{{ .PYTHON_PACKAGE_MANAGER }} version major"
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump major --no-commit"
 
   minor:
     desc: "Increase minor version"
     run: once
     cmds:
-      - "{{ .PYTHON_PACKAGE_MANAGER }} version minor"
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump minor --no-commit"
 
   patch:
     desc: "Increase patch version"
     run: once
     cmds:
-      - "{{ .PYTHON_PACKAGE_MANAGER }} version patch"
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump patch --no-commit"
+
+  pre_release:
+    desc: "Increase pre_release version"
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump pre_release --no-commit"
