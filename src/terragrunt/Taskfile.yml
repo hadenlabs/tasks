@@ -57,7 +57,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: terragrunt import {{.COMMAND}} --terragrunt-working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --terragrunt-source-update
+      - cmd: terragrunt import {{.COMMAND}} --working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --source-update
         vars:
           REGION: us-east-1
 
@@ -67,7 +67,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: terragrunt state {{.COMMAND}} --terragrunt-working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --terragrunt-source-update
+      - cmd: terragrunt state {{.COMMAND}} --working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --source-update
         vars:
           REGION: us-east-1
 
@@ -77,7 +77,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: terragrunt {{.MODULE_COMMAND}} --terragrunt-working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --terragrunt-source-update -target=module.{{.MODULE}}
+      - cmd: terragrunt {{.MODULE_COMMAND}} --working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --source-update -target=module.{{.MODULE}}
         vars:
           REGION: us-east-1
 
@@ -87,7 +87,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: terragrunt {{.MODULE_COMMAND}} --terragrunt-working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --terragrunt-source-update -target=module.{{.MODULE}}
+      - cmd: terragrunt {{.MODULE_COMMAND}} --working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --source-update -target=module.{{.MODULE}}
         vars:
           REGION: us-east-1
           MODULE_COMMAND: destroy
@@ -98,7 +98,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: terragrunt {{.MODULE_COMMAND}} --terragrunt-working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --terragrunt-source-update -target=module.{{.MODULE}}
+      - cmd: terragrunt {{.MODULE_COMMAND}} --working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --source-update -target=module.{{.MODULE}}
         vars:
           REGION: us-east-1
           MODULE_COMMAND: apply
@@ -109,7 +109,7 @@ tasks:
     deps:
       - task: check
     cmds:
-      - cmd: terragrunt {{.TERRAGRUNT_COMMAND}} --terragrunt-working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --terragrunt-source-update
+      - cmd: terragrunt {{.TERRAGRUNT_COMMAND}} --working-dir {{.TERRAFORM_PATH}}/{{.REGION}}/{{.STAGE}} --source-update
         vars:
           REGION: us-east-1
 
