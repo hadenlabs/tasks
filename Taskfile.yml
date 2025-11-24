@@ -13,6 +13,7 @@ includes:
   plantuml: ./src/plantuml/Taskfile.yml
   prettier: ./src/prettier/Taskfile.yml
   sonar: ./src/sonar/Taskfile.yml
+  terraform: ./src/terraform/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
 
 env:
@@ -41,7 +42,7 @@ vars:
   DOCKER_PLATFORM: linux/amd64
   REVIEWERS: luismayta
   PYTHON_VERSION: 3.11.5
-  NODE_VERSION: v20.18.3
+  NODE_VERSION: v24.11.1
   GIT_IGNORES: python,node,go,zsh,sonar,java,maven,intellij+all,terraform,linux
   GOLANGCI_VERSION: 1.42.0
   TERRAFORM_VERSION: 1.11.4
@@ -108,6 +109,7 @@ tasks:
     desc: Execute prettier files
     cmds:
       - task: prettier:all
+      - task: terraform:fmt
 
   upgrade:
     desc: Execute upgrade packages
