@@ -1,0 +1,75 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist flutter and dependences
+    run: once
+    deps:
+      - task: check:flutter
+      - task: check:dart
+
+  check:flutter:
+    desc: Exist flutter
+    run: once
+    preconditions:
+      - sh: command -v flutter
+        msg: "Please Install flutter"
+
+  check:dart:
+    run: once
+    desc: Exist dart
+    preconditions:
+      - sh: command -v dart
+        msg: "Please Install dart"
+
+  setup:
+    run: once
+    desc: Setup flutter dependences.
+    cmds:
+      - flutter pub get
+    deps:
+      - task: check:flutter
+      - task: check:dart
+
+  fmt:
+    run: once
+    desc: Format all dart files.
+    cmds:
+      - dart format .
+    deps:
+      - task: check:dart
+
+  fix:
+    run: once
+    desc: Apply recommended fixes.
+    cmds:
+      - dart fix --apply
+    deps:
+      - task: check:dart
+
+  lint:
+    run: once
+    desc: Analyze Dart code.
+    cmds:
+      - dart analyze
+    deps:
+      - task: check:dart
+
+  test:
+    run: once
+    desc: Run all tests.
+    cmds:
+      - flutter test
+    deps:
+      - task: check:flutter
+      - task: check:dart
+
+  build:
+    run: once
+    desc: Build release APK.
+    cmds:
+      - flutter build apk --release
+    deps:
+      - task: check:flutter
+      - task: check:dart

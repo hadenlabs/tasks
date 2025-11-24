@@ -31,6 +31,13 @@ tasks:
       - sh: test {{.AWS_PROFILE_NAME}} == {{.ORGANIZATION}}
         msg: "Please load var environment AWS of {{.ORGANIZATION}}"
 
+  fmt:
+    desc: format terragrunt
+    run: once
+    cmds:
+      - cmd: >-
+          terragrunt hcl format
+
   setup:
     desc: install setup
     run: once

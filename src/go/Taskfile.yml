@@ -2,7 +2,7 @@ version: "3"
 
 env:
   GO_FILES:
-    sh: find ./ -type f -name '*.go' | grep -v '/vendor/' | sort -u | xargs
+    sh: find ./ -type f -name '*.go' | grep -v '/vendor/' | sort -u | xargs -n 100 true
 
 tasks:
   check:

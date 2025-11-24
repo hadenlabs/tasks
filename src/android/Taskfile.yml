@@ -5,10 +5,18 @@ vars:
 
 tasks:
   check:
-    desc: Exist gradle and dependences
+    desc: Exist android and dependences
     run: once
     deps:
       - task: check:gradle
+      - task: check:vars
+
+  check:vars:
+    desc: Exist vars of android
+    run: once
+    preconditions:
+      - sh: test -v ANDROID_HOME
+        msg: "Please add var environment ANDROID_HOME"
 
   check:gradle:
     desc: Exist gradlew
@@ -22,6 +30,29 @@ tasks:
     run: once
     cmds:
       - ./gradlew clean install
+    deps:
+      - task: check:gradle
+
+  fmt:
+    desc: fmt
+    cmds:
+      - ./gradlew ktlintFormat
+    deps:
+      - task: check:gradle
+
+  lint:
+    desc: Run linter.
+    run: once
+    cmds:
+      - ./gradlew ktlintCheck
+    deps:
+      - task: check:gradle
+
+  fix:
+    desc: Fix lint violations.
+    run: once
+    cmds:
+      - ./gradlew ktlintFormat
     deps:
       - task: check:gradle
 
@@ -78,14 +109,3 @@ tasks:
       - ./gradlew publish
     deps:
       - task: check:gradle
-
-  environment:
-    desc: Generate environment Gradle
-    run: once
-    cmds:
-      - mkdir -p gradle/wrapper
-      - curl -o gradlew https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradlew
-      - curl -o gradlew.bat https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradlew.bat
-      - curl -o gradle/wrapper/gradle-wrapper.jar https://services.gradle.org/distributions/gradle-wrapper.jar
-      - curl -o gradle/wrapper/gradle-wrapper.properties https://raw.githubusercontent.com/gradle/gradle/v{{ .GRADLE_VERSION }}/gradle/wrapper/gradle-wrapper.properties
-      - chmod +x gradlew

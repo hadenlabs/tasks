@@ -21,9 +21,6 @@ tasks:
       - task: check
     cmds:
       - cmd: packer {{.PACKER_COMMAND}} {{.PACKER_PATH}}/{{.REGION}}/arch/{{.ARCH}}/{{.IMAGE}}
-        vars:
-          REGION: us-east-1
-          ARCH: amd64
 
   init:
     desc: make packer init
