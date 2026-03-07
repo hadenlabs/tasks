@@ -163,3 +163,19 @@ tasks:
     cmds:
       - task: python:environment
 ```
+
+## Prompt templates (for contributors)
+
+This repository also ships prompt templates to help contributors implement or update `src/*/Taskfile.yml` templates in a consistent way.
+
+- New tool template prompt: `provision/prompts/task/scaffold-template.prompt.md`
+- Existing tool prompt (one per tool): `provision/prompts/task/<tool>/implement-taskfile-v1.prompt.md`
+
+Workflow:
+
+1. Pick the prompt that matches what you want to do.
+2. Replace placeholders like `{{tool_name}}`.
+3. Use the prompt in your coding agent and apply the generated changes.
+4. Validate locally with `task validate`.
+
+See `docs/contributing.md` for contributor guidance.

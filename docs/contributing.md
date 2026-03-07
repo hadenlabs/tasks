@@ -79,6 +79,36 @@ Documentation is a part of the tasks code base. You can find the documentation f
 
 See [Testing](./testing.md).
 
+### Prompt templates
+
+This repository includes prompt templates to help implement and maintain Taskfile templates (`src/*/Taskfile.yml`) consistently.
+
+- Add a new tool Taskfile template:
+  - Prompt: `provision/prompts/task/scaffold-template.prompt.md`
+  - Output typically includes:
+    - `src/<tool>/Taskfile.yml`
+    - `Taskfile.yml` include registration
+    - `docs/usage.md` include example update
+
+- Update an existing tool Taskfile template:
+  - Prompt: `provision/prompts/task/<tool>/implement-taskfile-v1.prompt.md`
+
+General workflow:
+
+1. Choose the prompt that matches your change.
+2. Replace placeholders (e.g., `{{tool_name}}`).
+3. Run the prompt in your coding agent and apply the changes to the repo.
+4. Validate with:
+
+```bash
+task validate
+```
+
+Prompt conventions:
+
+- Folder name matches the tool directory under `src/` (e.g., `src/terraform` -> `provision/prompts/task/terraform/`).
+- Keep prompts ASCII and versioned (`*-v1.prompt.md`). If you need to change behavior in a breaking way, add `v2` instead of rewriting history.
+
 ### Code Submission
 
 1.  See if a [Pull Request](https://github.com/hadenlabs/tasks/pulls) exists
