@@ -13,40 +13,20 @@
 
 Make a new version of tasks in the following steps:
 
-### Generate version major
+### Generate release major
 
 ```bash
-task version:major
+task release:major
 ```
 
-### Generate version minor
+### Generate release minor
 
 ```bash
-task version:minor
+task release:minor
 ```
 
-### Generate version patch
+### Generate release patch
 
 ```bash
-task version:patch
-```
-
-## Generate Changelog
-
-### Generate Changelog Next Tag
-
-```bash
-task changelog:next APP_TAG={{tag}}
-```
-
-#### Parameters
-
-| Name     | Description   | sample | Required |
-| -------- | ------------- | ------ | :------: |
-| tag name | Name next tag | 0.1.0  |   yes    |
-
-### Generate Changelog Tag Now
-
-```bash
-task changelog:tag
+task release:patch
 ```

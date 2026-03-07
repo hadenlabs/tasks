@@ -77,7 +77,7 @@ tasks:
     cmds:
       - cmd: echo Application {{.PROJECT_NAME}}
         silent: true
-      - task: version:default
+      - task: release:default
       - task: summary
       - cmd: task -l
     silent: true

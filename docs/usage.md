@@ -32,8 +32,8 @@ includes:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/docs/Taskfile.yml"
   docker:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/docker/Taskfile.yml"
-  version:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/version/Taskfile.yml"
+  release:
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/release/Taskfile.yml"
   plantuml:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/plantuml/Taskfile.yml"
   prettier:
@@ -101,7 +101,7 @@ tasks:
     cmds:
       - cmd: echo Application {{.PROJECT_NAME}}
         silent: true
-      - task: version:default
+      - task: release:default
       - task: summary
       - cmd: task -l
     silent: true

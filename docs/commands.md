@@ -59,24 +59,24 @@ task changelog:next APP_TAG={{tag name}}
 | -------- | ------------- | ------ | :------: |
 | tag name | Name next tag | 0.1.0  |   yes    |
 
-### Version
+### Release
 
-#### Version Major
+#### Release Major
 
 ```{.bash}
-task version:major
+task release:major
 ```
 
-#### Version Minor
+#### Release Minor
 
 ```{.bash}
-task version:minor
+task release:minor
 ```
 
-#### Version Patch
+#### Release Patch
 
 ```{.bash}
-task version:patch
+task release:patch
 ```
 
 ## Infrastructure
@@ -187,24 +187,24 @@ task changelog:next APP_TAG={{tag name}}
 | -------- | ------------- | ------ | :------: |
 | tag name | Name next tag | 0.1.0  |   yes    |
 
-### Version
+### Release
 
-#### Version Major
+#### Release Major
 
 ```{.bash}
-task version:major
+task release:major
 ```
 
-#### Version Minor
+#### Release Minor
 
 ```{.bash}
-task version:minor
+task release:minor
 ```
 
-#### Version Patch
+#### Release Patch
 
 ```{.bash}
-task version:patch
+task release:patch
 ```
 
 ### Multipass
