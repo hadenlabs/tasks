@@ -15,6 +15,7 @@ includes:
   sonar: ./src/sonar/Taskfile.yml
   terraform: ./src/terraform/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
+  pnpm: ./src/pnpm/Taskfile.yml
 
 env:
   DOCKER:
@@ -27,11 +28,11 @@ env:
     sh: node --version 2> /dev/null || echo "not exist"
   APP_TAG:
     sh: git describe --tags $(git rev-list --tags --max-count=1) 2> /dev/null || echo "0.0.0"
-  PYTHON_PACKAGE_MANAGER: uv
   README_YAML: provision/generators/README.yaml
   README_TEMPLATE: provision/templates/README.tpl.md
   README_INCLUDES: file://
   TERRAFORM_PATH: ./
+  PYTHON_PACKAGE_MANAGER: uv
 
 dotenv:
   - .env
@@ -44,6 +45,9 @@ vars:
   PYTHON_VERSION: 3.11.5
   NODE_VERSION: v24.11.1
   GIT_IGNORES: python,node,go,zsh,sonar,java,maven,intellij+all,terraform,linux
+  COMMIT: $(git rev-parse HEAD)
+  RELEASE_DIR: ./release
+  DATE: $(date +%s)
   GOLANGCI_VERSION: 1.42.0
   TERRAFORM_VERSION: 1.11.4
   README_FILE: README.md
@@ -90,6 +94,7 @@ tasks:
     desc: "Check all dependencies"
     deps:
       - uv:check
+      - pnpm:check
       - changelog:check
       - git:check
       - docs:check
@@ -109,9 +114,15 @@ tasks:
     desc: Execute prettier files
     cmds:
       - task: prettier:all
-      - task: terraform:fmt
+      - task: uv:fmt
+
+  test:
+    desc: Execute of test
+    cmds:
+      - task: go:test
 
   upgrade:
+    run: once
     desc: Execute upgrade packages
     cmds:
       - uv update
@@ -126,13 +137,26 @@ tasks:
       - task: uv:precommit
       - task: git:setup
 
-  test:
-    run: once
-    desc: Execute task test all
-    cmds:
-      - task: go:test
-
   environment:
     desc: Setup environment of project
     cmds:
       - task: uv:environment
+
+  generate:
+    desc: Generate files
+    cmds:
+      - task: go:mockery
+      - task: go:generate
+
+  validate:
+    desc: "Run validate on all files"
+    cmds:
+      - uv run pre-commit run --all-files
+
+  help:
+    cmds:
+      - cmd: |
+          echo 'Use "task --list" to get a list of all available tasks with a short description of what they do.'
+          echo 'There are some more tasks used as dependencies for other tasks.'
+          echo 'You can view them with "task --list-all".'
+        silent: true

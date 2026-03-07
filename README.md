@@ -22,7 +22,7 @@ This repository contains reusable **Taskfile templates** to standardize and simp
 
 ## Requirements
 
-This is a list of var environment requireds:
+This is a list of var environment requires:
 
 - `TASK_X_REMOTE_TASKFILES=1`: Enabled Tasks Remote
 
@@ -219,7 +219,7 @@ task setup
 
 ## Help
 
-**Got a question?**
+### Got a question?
 
 File a GitHub [issue](https://github.com/hadenlabs/tasks/issues).
 
@@ -244,7 +244,7 @@ Using the given version number of `MAJOR.MINOR.PATCH`, we apply the following co
 
 ## Copyright
 
-Copyright © 2018-2025 [Hadenlabs](https://hadenlabs.com)
+Copyright © 2018-2026 [Hadenlabs](https://hadenlabs.com)
 
 ## Trademarks
 

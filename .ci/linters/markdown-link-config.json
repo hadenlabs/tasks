@@ -2,17 +2,26 @@
   "baseUrl": "https://github.com/hadenlabs/tasks",
   "ignorePatterns": [
     {
-      "pattern": "^https://hadenlabs.com"
+      "pattern": "^mailto:.*@hadenlabs\\.com"
+    },
+    {
+      "pattern": "^http://localhost"
     }
   ],
   "replacementPatterns": [
     {
       "pattern": "^/docs",
       "replacement": "{{BASEURL}}/docs"
+    },
+    {
+      "pattern": "^/",
+      "replacement": "{{BASEURL}}/"
     }
   ],
+
   "timeout": "20s",
+  "retryOn429": true,
   "retryCount": 3,
   "fallbackRetryDelay": "30s",
-  "aliveStatusCodes": [200, 206]
+  "aliveStatusCodes": [200, 201, 202, 206]
 }
