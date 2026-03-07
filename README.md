@@ -68,8 +68,8 @@ includes:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/docs/Taskfile.yml"
   docker:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/docker/Taskfile.yml"
-  version:
-    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/version/Taskfile.yml"
+  release:
+    taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/release/Taskfile.yml"
   plantuml:
     taskfile: "https://raw.githubusercontent.com/hadenlabs/tasks/refs/heads/main/src/plantuml/Taskfile.yml"
   prettier:
@@ -137,7 +137,7 @@ tasks:
     cmds:
       - cmd: echo Application {{.PROJECT_NAME}}
         silent: true
-      - task: version:default
+      - task: release:default
       - task: summary
       - cmd: task -l
     silent: true
@@ -199,6 +199,22 @@ tasks:
     cmds:
       - task: python:environment
 ```
+
+## Prompt templates (for contributors)
+
+This repository also ships prompt templates to help contributors implement or update `src/*/Taskfile.yml` templates in a consistent way.
+
+- New tool template prompt: `provision/prompts/task/scaffold-template.prompt.md`
+- Existing tool prompt (one per tool): `provision/prompts/task/<tool>/implement-taskfile-v1.prompt.md`
+
+Workflow:
+
+1. Pick the prompt that matches what you want to do.
+2. Replace placeholders like `{{tool_name}}`.
+3. Use the prompt in your coding agent and apply the generated changes.
+4. Validate locally with `task validate`.
+
+See `docs/contributing.md` for contributor guidance.
 
 ## Examples
 
