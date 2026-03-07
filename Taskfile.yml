@@ -10,6 +10,7 @@ includes:
   docs: ./src/docs/Taskfile.yml
   docker: ./src/docker/Taskfile.yml
   version: ./src/version/Taskfile.yml
+  release: ./src/release/Taskfile.yml
   plantuml: ./src/plantuml/Taskfile.yml
   prettier: ./src/prettier/Taskfile.yml
   sonar: ./src/sonar/Taskfile.yml

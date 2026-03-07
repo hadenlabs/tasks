@@ -1,0 +1,61 @@
+version: "3"
+
+tasks:
+  _changelog_next:
+    internal: true
+    cmds:
+      - cmd: task changelog:next APP_TAG=$({{.PYTHON_PACKAGE_MANAGER}} run bump-my-version show current_version)
+
+  _version:default:
+    desc: "Show current release version"
+    cmds:
+      - echo "Release version {{.APP_TAG}}"
+    silent: true
+
+  _version:major:
+    desc: "Increase major version"
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump major --no-commit"
+
+  _version:minor:
+    desc: "Increase minor version"
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump minor --no-commit"
+
+  _version:patch:
+    desc: "Increase patch version"
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump patch --no-commit"
+
+  _version:pre_release:
+    desc: "Increase pre_release version"
+    run: once
+    cmds:
+      - "{{ .PYTHON_PACKAGE_MANAGER }} run bump-my-version bump pre_release --no-commit"
+
+  major:
+    desc: Release major (version bump + next changelog)
+    cmds:
+      - task: _version:major
+      - task: _changelog_next
+
+  minor:
+    desc: Release minor (version bump + next changelog)
+    cmds:
+      - task: _version:minor
+      - task: _changelog_next
+
+  patch:
+    desc: Release patch (version bump + next changelog)
+    cmds:
+      - task: _version:patch
+      - task: _changelog_next
+
+  pre_release:
+    desc: Release pre-release (version bump + next changelog)
+    cmds:
+      - task: _version:pre_release
+      - task: _changelog_next
