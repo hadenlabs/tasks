@@ -28,6 +28,9 @@ repos:
         exclude: >
           (?x)^(
           AGENTS.md|
+          CHANGELOG.md|
+          .claude/skills/.*/SKILL\.md$|
+          skills/.*/SKILL\.md$|
           app/components/sections\/.*$|
           app/data\/.*$|
           app/ia/datasets\/.*$|
@@ -80,7 +83,6 @@ repos:
       - id: requirements-txt-fixer
       - id: check-symlinks
       - id: file-contents-sorter
-      - id: fix-encoding-pragma
       - id: sort-simple-yaml
 
   - repo: https://github.com/tcort/markdown-link-check
@@ -91,22 +93,23 @@ repos:
           - --config=.ci/linters/markdown-link-config.json
         exclude: >
           (?x)^(
-          .+\.docs/env-vars.md$|
-          .+\.tpl.md$|
-          data/patterns\/.*$|
-          docs/env-vars.md$|
-          docs\/include\/terraform.md$|
+            .+\.docs/env-vars.md$|
+            docs/env-vars.md$|
+            docs\/include\/terraform.md$|
+            .+\.tpl.md$|
           )$
 
   - repo: https://github.com/hadenlabs/pre-commit-hooks
     rev: 0.6.0
     hooks:
       - id: do-not-commit
+
       - id: shellcheck
         exclude: >
           (?x)^(
             .+\.provision/git/hooks/prepare-commit-msg$|
             .+\.tpl.sh$|
+            .+\.envrc$|
           )$
         args:
           - --exclude=SC1072,SC1073,SC2068
