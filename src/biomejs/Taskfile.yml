@@ -1,0 +1,65 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist bunx and dependences
+    run: once
+    deps:
+      - task: check:bunx
+
+  check:bunx:
+    desc: Exist bunx
+    run: once
+    preconditions:
+      - sh: command -v bunx
+        msg: "Please Install bun"
+
+  setup:
+    desc: Setup biomejs configuration.
+    run: once
+    cmds:
+      - bunx @biomejs/biome init
+    deps:
+      - task: check:bunx
+
+  fmt:
+    desc: Format files with BiomeJS.
+    run: once
+    cmds:
+      - bunx @biomejs/biome format . --write
+    deps:
+      - task: check:bunx
+
+  lint:
+    desc: Lint files with BiomeJS.
+    run: once
+    cmds:
+      - bunx @biomejs/biome lint .
+    deps:
+      - task: check:bunx
+
+  check:all:
+    desc: Check files with BiomeJS (fmt + lint).
+    run: once
+    cmds:
+      - bunx @biomejs/biome check --write .
+    deps:
+      - task: check:bunx
+
+  fix:
+    desc: Fix lint violations automatically.
+    run: once
+    cmds:
+      - bunx @biomejs/biome lint . --write --max-diagnostics=none --unsafe
+    deps:
+      - task: check:bunx
+
+  migrate:
+    desc: Migrate from prettier/eslint configs.
+    run: once
+    cmds:
+      - bunx @biomejs/biome migrate prettier
+      - bunx @biomejs/biome migrate eslint
+    deps:
+      - task: check:bunx

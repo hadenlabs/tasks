@@ -1,0 +1,33 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist bun and dependences
+    run: once
+    deps:
+      - task: check:bun
+      - task: check:curl
+
+  check:bun:
+    desc: Exist bun
+    run: once
+    preconditions:
+      - sh: command -v bun
+        msg: "Please Install bun"
+
+  check:curl:
+    desc: Exist curl
+    run: once
+    preconditions:
+      - sh: command -v curl
+        msg: "Please Install curl"
+
+  setup:
+    desc: Install bun if not present
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v bun)" ] || curl -fsSL https://bun.com/install | bash'
+        silent: true
+    deps:
+      - task: check:curl

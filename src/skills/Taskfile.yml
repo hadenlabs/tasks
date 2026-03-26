@@ -1,0 +1,36 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist opencode and dependencies
+    run: once
+    deps:
+      - task: check:bun
+
+  check:bun:
+    desc: Exist bun
+    run: once
+    preconditions:
+      - sh: command -v bun
+        msg: "Please Install bun"
+
+  setup:
+    desc: installs skills.
+    run: once
+    cmds:
+      - cmd: >-
+          for repository in {{.SKILL_REPOS}}; do
+            echo "Install $repository";
+            bunx -y openskills install $repository --yes;
+            echo "Installed $repository";
+          done
+    deps:
+      - task: check:bun
+  sync:
+    desc: Sync skills.
+    run: once
+    cmds:
+      - bunx -y openskills sync --yes
+    deps:
+      - task: check:bun

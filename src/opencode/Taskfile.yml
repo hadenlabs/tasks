@@ -1,0 +1,58 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist opencode and dependences
+    run: once
+    deps:
+      - task: check:opencode
+      - task: check:curl
+
+  check:opencode:
+    desc: Exist opencode
+    run: once
+    preconditions:
+      - sh: command -v opencode
+        msg: "Please Install opencode"
+
+  check:curl:
+    desc: Exist curl
+    run: once
+    preconditions:
+      - sh: command -v curl
+        msg: "Please Install curl"
+
+  setup:
+    desc: Setup Opencode.
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v opencode)" ] || curl -fsSL https://opencode.ai/install | bash'
+        silent: true
+    deps:
+      - task: check:curl
+
+  sync:
+    desc: Sync opencode commands, skills, and context.
+    run: once
+    cmds:
+      - echo "Not implemented"
+    deps:
+      - task: check:opencode
+
+  validate:
+    desc: Validate opencode configuration.
+    run: once
+    cmds:
+      - echo "Not implemented"
+    deps:
+      - task: check:opencode
+
+  check:all:
+    desc: Run all checks (sync + validate).
+    run: once
+    cmds:
+      - task: sync
+      - task: validate
+    deps:
+      - task: check:opencode

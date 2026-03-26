@@ -1,0 +1,190 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: "Exist glab and dependencies"
+    run: once
+    deps:
+      - task: check:glab
+
+  check:glab:
+    desc: "Exist glab CLI"
+    run: once
+    preconditions:
+      - sh: command -v glab
+        msg: "Please Install glab CLI: https://gitlab.com/gitlab-org/cli"
+
+  setup:
+    desc: "Setup glab configuration"
+    run: once
+    cmds:
+      - |
+        # Check if glab is already authenticated
+        if ! glab auth status &>/dev/null; then
+          echo "glab not authenticated. Run 'glab auth login' to authenticate."
+          glab auth login
+        else
+          echo "glab already authenticated"
+        fi
+    deps:
+      - task: check
+
+  version:
+    desc: "Show glab version"
+    run: once
+    cmds:
+      - glab --version
+    deps:
+      - task: check
+
+  auth:status:
+    desc: "Show glab authentication status"
+    run: once
+    cmds:
+      - glab auth status
+    deps:
+      - task: check
+
+  auth:login:
+    desc: "Login to GitLab with glab"
+    run: once
+    cmds:
+      - glab auth login
+    deps:
+      - task: check
+
+  auth:logout:
+    desc: "Logout from GitLab"
+    run: once
+    cmds:
+      - glab auth logout
+    deps:
+      - task: check
+
+  mr:list:
+    desc: "List merge requests"
+    run: once
+    cmds:
+      - |
+        glab mr list {{.FLAGS}}
+    deps:
+      - task: check
+    vars:
+      FLAGS: ""
+
+  mr:view:
+    desc: "View a merge request"
+    run: once
+    cmds:
+      - glab mr view {{.MR_NUMBER}}
+    deps:
+      - task: check
+    requires:
+      vars: ["MR_NUMBER"]
+
+  mr:create:
+    desc: "Create a merge request"
+    run: once
+    cmds:
+      - |
+        glab mr create {{.FLAGS}}
+    deps:
+      - task: check
+    vars:
+      FLAGS: ""
+
+  mr:approve:
+    desc: "Approve a merge request"
+    run: once
+    cmds:
+      - glab mr approve {{.MR_NUMBER}}
+    deps:
+      - task: check
+    requires:
+      vars: ["MR_NUMBER"]
+
+  issue:list:
+    desc: "List issues"
+    run: once
+    cmds:
+      - |
+        glab issue list {{.FLAGS}}
+    deps:
+      - task: check
+    vars:
+      FLAGS: ""
+
+  issue:view:
+    desc: "View an issue"
+    run: once
+    cmds:
+      - glab issue view {{.ISSUE_NUMBER}}
+    deps:
+      - task: check
+    requires:
+      vars: ["ISSUE_NUMBER"]
+
+  issue:create:
+    desc: "Create an issue"
+    run: once
+    cmds:
+      - |
+        glab issue create {{.FLAGS}}
+    deps:
+      - task: check
+    vars:
+      FLAGS: ""
+
+  ci:list:
+    desc: "List CI/CD pipelines"
+    run: once
+    cmds:
+      - glab ci list
+    deps:
+      - task: check
+
+  ci:view:
+    desc: "View a CI/CD pipeline"
+    run: once
+    cmds:
+      - glab ci view {{.PIPELINE_ID}}
+    deps:
+      - task: check
+    requires:
+      vars: ["PIPELINE_ID"]
+
+  ci:run:
+    desc: "Trigger a CI/CD pipeline"
+    run: once
+    cmds:
+      - |
+        glab ci run {{.FLAGS}}
+    deps:
+      - task: check
+    vars:
+      FLAGS: ""
+
+  repo:view:
+    desc: "View current repository information"
+    run: once
+    cmds:
+      - glab repo view
+    deps:
+      - task: check
+
+  repo:fork:
+    desc: "Fork a repository"
+    run: once
+    cmds:
+      - glab repo fork
+    deps:
+      - task: check
+
+  config:list:
+    desc: "Show glab configuration"
+    run: once
+    cmds:
+      - glab config list
+    deps:
+      - task: check

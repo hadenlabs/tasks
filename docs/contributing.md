@@ -33,39 +33,38 @@ In general, MRs are welcome. We follow the typical "fork-and-pull" [Github flow]
 
 ### Git Commit Messages
 
-Your commit messages should serve these 3 important purposes:
+The commit conventions for this repository are defined in `.goji.json`. This file serves as the source of truth for:
 
-- To speed up the reviewing process.
-- To provide the least amount of necessary documentation
-- To help the future maintainers.
+- **Allowed commit types** and their corresponding emoji
+- **Allowed scopes** (e.g., `core`, `accounts`, `ci`)
+- **Sign-off requirements** (required in this repo)
+- **Maximum subject length** (100 characters)
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) to make `git log`{.interpreted-text role="command"} a little easier to follow. We use commitlint enforcing conventional commits (See more [here](https://github.com/conventional-changelog/commitlint))
+While this repo follows the spirit of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0), the exact convention is defined by `.goji.json`. Refer to that file for the authoritative list of types, scopes, and emoji.
 
-**chore**: something just needs to happen, e.g. versioning
+#### Format
 
-**docs**: documentation pages in `docs/` or docstrings
+```
+<type> <emoji> (<scope>): <subject>
+```
 
-**feat**: new code in `./`
+#### Examples (aligned with current .goji.json)
 
-**fix**: code improvement in `./`
+- `feat ✨ (core): add new authentication module`
+- `fix 🐛 (accounts): resolve login timeout issue`
+- `docs 📚 (core): update API documentation`
+- `refactor 🎨 (ci): simplify build pipeline logic`
+- `ci 👷 (ci): add GitHub Actions workflow`
 
-**refactor**: code movement in `./`
+#### Guidelines
 
-**style**: aesthetic changes
+- Use only the types and scopes configured in `.goji.json` — do not invent custom types or scopes
+- Use only the emoji defined for each type in `.goji.json`
+- Keep the subject concise and within the maximum length (100 characters)
+- Include a sign-off (`-s` flag) when committing, as sign-off is required by this repo
+- Focus the subject on what changed and why
 
-**test**: test case modifications in `test/`
-
-Examples commit messages:
-
-- chore: IN-698 implement model devices
-- docs: IN-698 implement configuration settings
-- feat: IN-698 create lambda function
-- fix: IN-698 retry upload on failure
-- refactor: IN-698 extract duplicate code
-- style: IN-698 format files python
-- test: IN-698 coverage around add permissions
-
-**Keep it short and simple!**
+**Note:** `infobot.toml` configures Jira issue and branch integration separately from commit conventions.
 
 ### Branches
 

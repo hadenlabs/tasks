@@ -1,0 +1,81 @@
+version: "3"
+
+vars:
+  MAVEN_VERSION: 3.9.9
+
+tasks:
+  check:
+    desc: Exist maven and dependencies
+    run: once
+    deps:
+      - task: check:maven
+
+  check:maven:
+    desc: Exist mvnw
+    run: once
+    preconditions:
+      - sh: test -x ./mvnw
+        msg: "Please install Maven Wrapper (mvnw)"
+
+  setup:
+    desc: Setup maven dependencies
+    run: once
+    cmds:
+      - ./mvnw clean install -DskipTests
+    deps:
+      - task: check:maven
+
+  dependencies:
+    desc: Show maven dependencies
+    run: once
+    cmds:
+      - ./mvnw dependency:tree
+    deps:
+      - task: check:maven
+
+  clean:
+    desc: Clean maven packages
+    run: once
+    cmds:
+      - ./mvnw clean
+    deps:
+      - task: check:maven
+
+  build:
+    desc: Build maven packages
+    run: once
+    cmds:
+      - ./mvnw clean package
+    deps:
+      - task: check:maven
+
+  test:
+    desc: Test maven packages
+    cmds:
+      - ./mvnw clean test
+    deps:
+      - task: check:maven
+
+  test:allure:
+    desc: Test maven and generate allure report
+    cmds:
+      - ./mvnw clean test
+      - ./mvnw allure:serve
+    deps:
+      - task: check:maven
+
+  run:
+    desc: Run spring boot application
+    run: once
+    cmds:
+      - ./mvnw spring-boot:run
+    deps:
+      - task: check:maven
+
+  publish:
+    desc: Publish maven packages
+    run: once
+    cmds:
+      - ./mvnw deploy
+    deps:
+      - task: check:maven
