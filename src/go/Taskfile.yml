@@ -15,11 +15,19 @@ tasks:
       - task: check:goreleaser
 
   check:go:
-    desc: Exist Go
+    desc: Check if Go is installed
     run: once
     preconditions:
       - sh: command -v go
-        msg: "Please Install Go"
+        msg: |
+          Go no está instalado. Instálalo con:
+          curl -LO "https://go.dev/dl/go$(curl -s https://go.dev/VERSION?m=text).$(uname -s|tr '[:upper:]' '[:lower:]')-$(uname -m|sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" &&
+          sudo rm -rf /usr/local/go &&
+          sudo tar -C /usr/local -xzf go*.tar.gz &&
+          rm go*.tar.gz &&
+          echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc &&
+          source ~/.zshrc &&
+          go version
 
   check:gofmt:
     desc: Exist gofmt
@@ -41,6 +49,16 @@ tasks:
     preconditions:
       - sh: command -v goreleaser
         msg: "Please Install goreleaser"
+
+  check:mockery:
+    desc: Check if mockery is installed
+    run: once
+    preconditions:
+      - sh: command -v mockery
+        msg: |
+          Mockery no está instalado. Instálalo con:
+          go install github.com/vektra/mockery/v2@latest &&
+          mockery --version
 
   setup:
     desc: Setup go dependences.
@@ -93,13 +111,10 @@ tasks:
 
   mockery:
     desc: Refreshes the mock implementations in ./mocks.
-    preconditions:
-      - sh: which mockery
-        msg: mockery is not installed. Please install it using the following command.
-
-          $ go install github.com/vektra/mockery/v2@v2.38.0
     cmds:
       - mockery --config .ci/config/mockery.yaml
+    deps:
+      - task: check:mockery
 
   generate:
     desc: "Generate code with Wire"

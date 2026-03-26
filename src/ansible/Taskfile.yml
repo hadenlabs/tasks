@@ -199,7 +199,7 @@ tasks:
       - cmd: >
           {{ .PYTHON_PACKAGE_MANAGER }} run ansible-playbook -vvvv {{.ANSIBLE_PATH}}/{{.STAGE}}/managements.yml
           -i {{.ANSIBLE_PATH}}/{{.STAGE}}/inventory/{{.INVENTORY}}.yml
-          --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}"/vault.txt
+          --vault-password-file "{{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/vault.txt"
           --tags configuration,{{.TAGS}}
         vars:
           INVENTORY: all

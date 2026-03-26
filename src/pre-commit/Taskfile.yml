@@ -2,17 +2,47 @@
 version: "3"
 
 tasks:
-  update-hooks:
+  check:
+    desc: Exist python and dependences
+    run: once
+    deps:
+      - task: check:uv
+
+  check:uv:
+    desc: Exist uv
+    run: once
+    preconditions:
+      - sh: command -v uv
+        msg: "Please Install uv"
+
+  update:
     desc: "Update pre-commit hooks"
     cmds:
-      - pre-commit autoupdate
+      - uvx pre-commit autoupdate
+    deps:
+      - task: check:uv
 
-  clear-cache:
+  clear:
     desc: "Clear pre-commit cache"
     cmds:
-      - pre-commit clean
+      - uvx pre-commit clean
+    deps:
+      - task: check
 
-  run-hooks:
+  lint:
     desc: "Run all pre-commit hooks locally"
     cmds:
-      - pre-commit run --all-files --show-diff-on-failure
+      - uvx pre-commit run --all-files --show-diff-on-failure
+    deps:
+      - task: check
+
+  setup:
+    desc: Install pre-commit.
+    run: once
+    cmds:
+      - uvx pre-commit install
+      - uvx pre-commit install -t pre-push
+      - uvx pre-commit install -t commit-msg
+      - uvx pre-commit install -t prepare-commit-msg
+    deps:
+      - task: check

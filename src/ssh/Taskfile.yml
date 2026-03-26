@@ -40,6 +40,13 @@ tasks:
         vars:
           STAGE: prod
 
+  make:pem:custom:
+    desc: Make pem for stage custom
+    cmds:
+      - task: make
+        vars:
+          STAGE: custom
+
   make:
     desc: generate ssh pem
     deps:

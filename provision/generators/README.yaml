@@ -47,6 +47,8 @@ requirements: |-
 
   This is a list of var environment requires:
 
+    - `GITLAB_USER`: This is the GitLab USER.
+    - `GITLAB_TOKEN`: This is the GitLab personal access token.
     - `TASK_X_REMOTE_TASKFILES=1`: Enabled Tasks Remote
 
   This is a list of plugins that need to be installed previously to enjoy all the goodies of this configuration:
@@ -67,5 +69,50 @@ description: |-
 usages:
   - docs/usage.md
 
+modules:
+  - docs/tasks/changelog.md
+  - docs/tasks/git.md
+  - docs/tasks/pre-commit.md
+  - docs/tasks/prettier.md
+  - docs/tasks/docker.md
+  - docs/tasks/terraform.md
+  - docs/tasks/github.md
+  - docs/tasks/uv.md
+  - docs/tasks/python.md
+  - docs/tasks/node.md
+  - docs/tasks/bun.md
+  - docs/tasks/release.md
+  - docs/tasks/version.md
+  - docs/tasks/docs.md
+  - docs/tasks/confluence.md
+  - docs/tasks/opencode.md
+  - docs/tasks/skills.md
+  - docs/tasks/biome.md
+  - docs/tasks/mark.md
+  - docs/tasks/k8s.md
+  - docs/tasks/sops.md
+  - docs/tasks/ssh.md
+  - docs/tasks/pnpm.md
+  - docs/tasks/yarn.md
+  - docs/tasks/ansible.md
+  - docs/tasks/aws.md
+  - docs/tasks/renovate.md
+  - docs/tasks/openssl.md
+  - docs/tasks/terragrunt.md
+  - docs/tasks/keybase.md
+  - docs/tasks/multipass.md
+  - docs/tasks/go.md
+  - docs/tasks/gradle.md
+  - docs/tasks/maven.md
+  - docs/tasks/flutter.md
+  - docs/tasks/android.md
+  - docs/tasks/packer.md
+  - docs/tasks/lua.md
+  - docs/tasks/coursier.md
+  - docs/tasks/molecule.md
+  - docs/tasks/plantuml.md
+  - docs/tasks/sonar.md
+
+  - docs/tasks/glab.md
 examples:
   - "docs/examples/common.md"

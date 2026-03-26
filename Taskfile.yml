@@ -13,10 +13,15 @@ includes:
   release: ./src/release/Taskfile.yml
   plantuml: ./src/plantuml/Taskfile.yml
   prettier: ./src/prettier/Taskfile.yml
+  pre-commit: ./src/pre-commit/Taskfile.yml
+  biome: ./src/biomejs/Taskfile.yml
   sonar: ./src/sonar/Taskfile.yml
   terraform: ./src/terraform/Taskfile.yml
+  bun: ./src/bun/Taskfile.yml
+  opencode: ./src/opencode/Taskfile.yml
+  go: ./src/go/Taskfile.yml
+  skills: ./src/skills/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
-  pnpm: ./src/pnpm/Taskfile.yml
 
 env:
   DOCKER:
@@ -32,8 +37,10 @@ env:
   README_YAML: provision/generators/README.yaml
   README_TEMPLATE: provision/templates/README.tpl.md
   README_INCLUDES: file://
-  TERRAFORM_PATH: ./
   PYTHON_PACKAGE_MANAGER: uv
+  TERRAFORM_PATH: provision/terraform
+  SKILL_REPOS:
+    https://gitlab.infosisglobal.com/architecture/skills.git
 
 dotenv:
   - .env
@@ -56,6 +63,7 @@ vars:
     community.sops
   GIT_IGNORES_CUSTOM: |
     bin
+    .project
     .scannerwork
     .secrets
     public
@@ -77,7 +85,7 @@ tasks:
     cmds:
       - cmd: echo Application {{.PROJECT_NAME}}
         silent: true
-      - task: release:default
+      - task: version:default
       - task: summary
       - cmd: task -l
     silent: true
@@ -95,10 +103,12 @@ tasks:
     desc: "Check all dependencies"
     deps:
       - uv:check
-      - pnpm:check
       - changelog:check
       - git:check
       - docs:check
+      - opencode:check
+      - bun:check
+      - skills:check
 
   readme:
     desc: Generate Readme
@@ -109,50 +119,46 @@ tasks:
         --out {{.README_FILE}}
         --datasource config={{.README_YAML}}
         --datasource includes={{.README_INCLUDES}}
-      - task: prettier
+      - task: format
 
-  prettier:
-    desc: Execute prettier files
+  format:
+    desc: Execute format files
     cmds:
-      - task: prettier:all
+      - task: biome:fmt
       - task: uv:fmt
-
-  test:
-    desc: Execute of test
-    cmds:
-      - task: go:test
+      - task: terraform:fmt
 
   upgrade:
-    run: once
     desc: Execute upgrade packages
     cmds:
       - uv update
-      - uv run pre-commit autoupdate
+      - task: pre-commit:update
 
   setup:
     desc: Setup dependences of project
     cmds:
       - >-
         [ -e ".env" ] || cp -rf .env.example .env
-      - task: uv:setup
-      - task: uv:precommit
       - task: git:setup
+      - task: skills:setup
 
   environment:
     desc: Setup environment of project
     cmds:
       - task: uv:environment
-
-  generate:
-    desc: Generate files
-    cmds:
-      - task: go:mockery
-      - task: go:generate
+      - task: bun:setup
+      - task: pre-commit:setup
 
   validate:
     desc: "Run validate on all files"
     cmds:
-      - uv run pre-commit run --all-files
+      - task: pre-commit:lint
+
+  test:
+    run: once
+    desc: Execute task test all
+    cmds:
+      - task: go:test
 
   help:
     cmds:

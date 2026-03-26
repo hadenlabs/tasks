@@ -13,8 +13,15 @@ tasks:
     deps:
       - task: check:python
       - task: check:uv
-      - task: check:precommit
       - task: check:ruff
+      - task: check:curl
+
+  check:curl:
+    desc: Exist curl
+    run: once
+    preconditions:
+      - sh: command -v curl
+        msg: "Please Install curl"
 
   check:python:
     desc: Exist Python
@@ -30,19 +37,21 @@ tasks:
       - sh: command -v uv
         msg: "Please Install uv"
 
-  check:precommit:
-    desc: Exist pre-commit
-    run: once
-    preconditions:
-      - sh: test "uv run command -v pre-commit"
-        msg: "Please Install pre-commit"
-
   check:ruff:
     desc: Exist ruff
     run: once
     preconditions:
       - sh: test "uv run command -v ruff"
         msg: "Please Install ruff"
+
+  _setup:
+    desc: Install uv if not present
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v uv)" ] || curl -LsSf https://astral.sh/uv/install.sh | sh'
+        silent: true
+    deps:
+      - task: check:curl
 
   setup:
     desc: Setup python dependences.
@@ -51,19 +60,19 @@ tasks:
       - uv sync --all-groups
     deps:
       - task: check:python
-      - task: check:uv
+      - task: _setup
 
   fmt:
     desc: format ruff
     run: once
     cmds:
       - cmd: >-
-          uv run ruff format ./ {{.CLI_ARGS}}
+          uvx ruff format ./ {{.CLI_ARGS}}
 
   lint:
     desc: Lint with ruff
     cmds:
-      - uv run ruff check ./ {{.CLI_ARGS}}
+      - uvx ruff check ./ {{.CLI_ARGS}}
       - task: mypy
 
   test:
@@ -75,14 +84,14 @@ tasks:
   pytest:
     desc: Run tests with pytest and coverage
     cmds:
-      - uv run coverage run -m pytest -s -vv
-      - uv run coverage report
-      - uv run coverage html
+      - uvx coverage run -m pytest -s -vv
+      - uvx coverage report
+      - uvx coverage html
 
   mypy:
     desc: Run mypy types checking
     cmds:
-      - uv run mypy src
+      - uvx mypy src
 
   environment:
     desc: Generate environment python.
@@ -91,14 +100,3 @@ tasks:
       - uv python install
     deps:
       - task: check:uv
-
-  precommit:
-    desc: Install pre-commit.
-    run: once
-    cmds:
-      - uv run pre-commit install
-      - uv run pre-commit install -t pre-push
-      - uv run pre-commit install -t commit-msg
-      - uv run pre-commit install -t prepare-commit-msg
-    deps:
-      - task: check
