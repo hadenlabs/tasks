@@ -40,7 +40,7 @@ env:
   PYTHON_PACKAGE_MANAGER: uv
   TERRAFORM_PATH: provision/terraform
   SKILL_REPOS:
-    https://gitlab.infosisglobal.com/architecture/skills.git
+    https://github.com/hadenlabs/jasper
 
 dotenv:
   - .env

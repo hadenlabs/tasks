@@ -32,7 +32,7 @@ tasks:
   lint:
     desc: "Run all pre-commit hooks locally"
     cmds:
-      - uvx pre-commit run --all-files --show-diff-on-failure
+      - uvx pre-commit run --all-files
     deps:
       - task: check
 
