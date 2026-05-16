@@ -2,6 +2,9 @@
 name: image-compression
 description: Reduce image file size using the MCP image-compression tool. If no path is provided, ask the user for the file.
 license: Proprietary
+metadata:
+  author: "hadenlabs"
+  version: "0.0.0"
 ---
 
 # Image Compression Skill

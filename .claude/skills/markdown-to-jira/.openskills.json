@@ -1,7 +1,7 @@
 {
-  "source": "https://gitlab.infosisglobal.com/architecture/skills.git",
+  "source": "https://github.com/hadenlabs/jasper",
   "sourceType": "git",
-  "repoUrl": "https://gitlab.infosisglobal.com/architecture/skills.git",
+  "repoUrl": "https://github.com/hadenlabs/jasper",
   "subpath": "skills/markdown-to-jira",
-  "installedAt": "2026-03-26T08:59:24.373Z"
+  "installedAt": "2026-05-16T16:31:09.276Z"
 }

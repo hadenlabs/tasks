@@ -2,6 +2,9 @@
 name: gitlab-create-mr
 description: Validate, push the current branch, and create a GitLab merge request from the current diff
 license: Proprietary
+metadata:
+  author: "hadenlabs"
+  version: "0.0.0"
 ---
 
 ## What I do

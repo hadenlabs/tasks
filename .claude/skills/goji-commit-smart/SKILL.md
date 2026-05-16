@@ -1,171 +1,287 @@
 ---
 name: goji-commit-smart
-description: Create git commits using goji rules from .goji.json (type/scope/emoji/signoff) with path-based heuristics.
+description: Deterministic multi-commit generator from git working tree. Uses jasper.toml (policy) and .goji.json (domain). Single validation gate + fast commit execution.
 license: Proprietary
+metadata:
+  author: "hadenlabs"
+  version: "0.0.0"
+  opencode:
+    emoji: 🧠
+    triggers:
+      - "goji commit"
+      - "commit smart"
+      - "create commits"
+      - "organize commits"
+    tags:
+      - git
+      - commits
+      - grouping
+      - deterministic
+      - policy-driven
+    mcp:
+      preferredServer: git
 ---
 
-# Goji Commit Smart Skill
+# goji-commit-smart
 
-## Trigger phrases
+Deterministic semantic commit partitioning engine.
 
-- "haz un commit goji"
-- "goji commit"
-- "commit smart"
-- "crea commits con goji"
+---
 
-## Source of truth
+# Inputs
 
-- `.goji.json`
-  - `types[]` (name + emoji)
-  - `scopes[]`
-  - `subjectmaxlength`
-  - `signoff`
-- `infobot.toml`
-  - `[issueTracking] provider + projectKey`
-  - `[issueTracking.branch]` extraction regexes (derive key/id from branch name)
-  - `[commit] style` (gitlab|jira)
-  - `[commit.providers.*]` rules
+- No inputs
+- Input = git working tree
 
-## What I do
+---
 
-- Run `task validate` before creating any commit.
-- Inspect working tree and staged changes.
-- Group changes into 1..N commits using path heuristics (avoid mixing unrelated areas).
-- Create commits following goji conventions: `<type> <emoji> (<scope>): <subject>`.
-- Derive issue key/id from the current branch name and inject it into the subject when required.
-- Create commits with `--signoff` when `signoff: true`.
+# Contract
 
-## Commit style (gitlab|jira)
+- `task validate` executes exactly once at start
+- If validation fails → abort immediately
+- Only sources of truth:
+  - `jasper.toml`
+  - `.goji.json`
+- No external configuration allowed
 
-Decide commit style from `infobot.toml` `[commit].style`.
+---
 
-- `jira`
-  - Require a Jira key in the subject (example: `AR-123`).
-  - Prefer: `<type>(<scope>): <JIRA-KEY> <subject>`.
-  - Derive `<JIRA-KEY>` from the current branch name using `infobot.toml` `[issueTracking].projectKey`.
-    - Default extraction: `(<PROJECTKEY>-[0-9]+)` when `[issueTracking.branch].jiraKeyFromProjectKey = true`.
-    - Override with `[issueTracking.branch].jiraKeyRegexOverride`.
-- `gitlab`
-  - Allow referencing GitLab issues in the subject (example: `(#123)` at the end).
-  - Optional commit body line: `Closes #123`.
-  - Derive `123` from the current branch name using `infobot.toml` `[issueTracking.branch].gitlabIssueNumberRegex`.
-
-## Commit format
-
-- Title: `<type> <emoji> (<scope>): <subject>`
-  - `emoji` comes from `.goji.json` `types[].emoji` for the chosen type.
-  - `type` must be one of `.goji.json` `types[].name`.
-  - `scope` must be one of `.goji.json` `scopes[]`.
-  - `subject` length must be `<= subjectmaxlength`.
-
-For `gitlab` style, append the issue at the end of the subject: `(#<number>)`.
-
-Examples:
-
-- `docs 📚 (ci): document MCP setup (#123)`
-- `ci 👷 (ci): bump gitlab ci runner image (#123)`
-- `feat ✨ (core): add release task include (#123)`
-
-## Heuristics (path -> type/scope)
-
-Use these as defaults; ask only when ambiguous.
-
-- `docs/**` -> `docs(ci)`
-- `.gitlab-ci.yml` -> `ci(ci)`
-- `.gitlab/**` -> `ci(ci)`
-- `.claude/**` -> `chore(core)`
-- `.opencode/**` -> `prompt(core)`
-- `Taskfile.yml` -> `build(core)`
-- `data/**` -> `chore(core)` (or `sample(core)` if clearly examples)
-- `pkg/**` or `internal/**` or `core/**` or `config/**` -> `feat(core)` (or `fix(core)` if bug)
-
-If only formatting changes, prefer `style(core)`. If only refactors with no behavior change, prefer `refactor(core)`.
-
-## Process
-
-0. Validate first
+# STEP 0 — Dependency validation
 
 ```bash
+command -v task >/dev/null 2>&1 || {
+  echo "ERROR: task not installed (https://taskfile.dev)"
+  exit 1
+}
+
+command -v jq >/dev/null 2>&1 || {
+  echo "ERROR: jq not installed (https://stedolan.github.io/jq/)"
+  exit 1
+}
+
+command -v yq >/dev/null 2>&1 || {
+  echo "ERROR: yq not installed (https://mikefarah.gitbook.io/yq)"
+  exit 1
+}
+```
+
+---
+
+# STEP 1 — Validate Task system (single execution gate)
+
+```bash
+if [ ! -f Taskfile.yml ] && [ ! -f Taskfile.yaml ]; then
+  echo "ERROR: Taskfile not found"
+  exit 1
+fi
+
+task --list | grep -q "^validate" || {
+  echo "ERROR: task validate not defined"
+  exit 1
+}
+
+echo "Running task validate..."
+
 task validate
+if [ $? -ne 0 ]; then
+  echo "VALIDATION FAILED"
+  exit 1
+fi
+
+echo "Validation passed"
 ```
 
-- If `task validate` fails, do not commit. Fix issues, re-run `task validate`, then proceed.
+---
 
-1. Collect context
+# STEP 2 — Load configuration (jasper.toml)
 
 ```bash
+FORMAT=$(yq -p toml '.commit.format' jasper.toml)
+STYLE=$(yq -p toml '.commit.style' jasper.toml)
+
+PROJECT_KEY=$(yq -p toml '.issueTracking.projectKey' jasper.toml)
+
+if [ "$FORMAT" = "null" ] || [ "$STYLE" = "null" ]; then
+  echo "ERROR: invalid jasper.toml commit config"
+  exit 1
+fi
+```
+
+---
+
+# STEP 3 — Load domain model (.goji.json)
+
+```bash
+[ ! -f .goji.json ] && cp <skill_root>/goji.json.tpl .goji.json
+
+jq empty .goji.json || {
+  echo "ERROR: invalid .goji.json"
+  exit 1
+}
+```
+
+---
+
+# STEP 4 — Detect git state
+
+```bash
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 git status --porcelain
-git diff
-git diff --cached
 git diff --name-only
-git diff --cached --name-only
-git rev-parse --abbrev-ref HEAD
-cat .goji.json
-cat infobot.toml
 ```
 
-2. Derive issue key/id from branch
+---
 
-- Determine `style` from `infobot.toml` `[commit].style`.
-- Parse the current branch name (`git rev-parse --abbrev-ref HEAD`) and extract:
-  - `jira`: `<PROJECTKEY>-<number>` (default derived from `[issueTracking].projectKey`)
-  - `gitlab`: `<number>`
-- If extraction fails (branch does not contain expected key/id), stop and ask the user for the key/id.
-
-3. Decide commit groups (intelligent split)
-
-- Prefer 1 commit if all changed files map to the same group.
-- Split into multiple commits when files span multiple groups, for example:
-  - docs-only vs CI-only vs code/tooling
-  - `.gitlab/**` separate from `docs/**`
-  - `.claude/**` separate from runtime code
-
-Default grouping by path:
-
-- `docs/**` -> one commit
-- `.gitlab/**` -> one commit
-- `.claude/**` + `provision/**` -> one commit
-- `.opencode/**` + `data/**` -> one commit
-- `Taskfile.yml` -> group with CI/tooling changes (not docs)
-- `pkg/**|internal/**|core/**|config/**` -> one commit
-
-4. Stage and commit each group
-
-- If there are already staged changes, commit them first as a single coherent group.
-- Otherwise, for each computed group, stage only those files:
+# STEP 5 — Load domain types
 
 ```bash
-git add <paths>
+declare -A TYPE_EMOJI
+
+while read -r name emoji; do
+  TYPE_EMOJI[$name]=$emoji
+done < <(jq -r '.types[] | "\(.name) \(.emoji)"' .goji.json)
+
+SCOPES=$(jq -r '.scopes[]' .goji.json)
 ```
 
-5. Draft commit title (use branch-derived key/id)
+---
 
-- Choose `type/scope` from heuristics.
-- Pick `emoji` from `.goji.json` for that `type`.
-- Keep `<subject>` within `.goji.json` `subjectmaxlength`.
-- Subject rules by style:
-  - `jira`: include `<JIRA-KEY>` (e.g. `AR-123`) early in the subject.
-  - `gitlab`: include `(#<number>)` (e.g. `(#123)`) at the end.
-
-6. Commit
-
-- If `.goji.json` `signoff` is `true`:
+# STEP 6 — Issue extraction (infobot-driven)
 
 ```bash
-git commit -s -m "<type> <emoji> (<scope>): <subject>"
+case "$STYLE" in
+  jira)
+    ISSUE=$(echo "$BRANCH" | grep -oE "${PROJECT_KEY}-[0-9]+" | head -1)
+    ;;
+  github|gitlab)
+    ISSUE="#$(echo "$BRANCH" | grep -oE '[0-9]+' | head -1)"
+    ;;
+esac
 ```
 
-- Else:
+---
+
+# STEP 7 — Detect Git signing capability
 
 ```bash
-git commit -m "<type> <emoji> (<scope>): <subject>"
+GIT_SIGNING_KEY=$(git config --get user.signingkey)
+
+if [ -n "$GIT_SIGNING_KEY" ]; then
+  ENABLE_SIGN=true
+else
+  ENABLE_SIGN=false
+fi
 ```
 
-7. Repeat for remaining groups until all intended commits are created.
+---
 
-## Safety rules
+# STEP 8 — Semantic grouping engine
 
-- Never commit secrets (examples: `.env`, `credentials.json`, private keys, tokens).
-- If any suspect files appear, stop and call them out.
-- Do not use `git commit --amend` unless explicitly requested.
-- Do not run destructive git commands (`reset --hard`, force-push) unless explicitly requested.
+* group by `(scope, type, intent)`
+* enforce `.goji.json`
+* no orphan atoms
+* fail-fast on ambiguity
+
+---
+
+# STEP 9 — Build commit message
+
+```bash
+build_message() {
+  TYPE=$1
+  SCOPE=$2
+  SUBJECT=$3
+
+  EMOJI=${TYPE_EMOJI[$TYPE]}
+
+  case "$STYLE" in
+    jira)
+      SUBJECT="$ISSUE $SUBJECT"
+      ;;
+    github|gitlab)
+      SUBJECT="$SUBJECT ($ISSUE)"
+      ;;
+  esac
+
+  echo "$TYPE $EMOJI ($SCOPE): $SUBJECT"
+}
+```
+
+---
+
+# STEP 10 — Validate commit format
+
+```bash
+validate_commit() {
+  local msg="$1"
+
+  case "$STYLE" in
+    jira)
+      PATTERN="^[a-z]+ .+ \\([a-z]+\\): [A-Z]+-[0-9]+ .+"
+      ;;
+    github|gitlab)
+      PATTERN="^[a-z]+ .+ \\([a-z]+\\): .+ \\(#[0-9]+\\)$"
+      ;;
+  esac
+
+  echo "$msg" | grep -Eq "$PATTERN" || {
+    echo "ERROR: invalid commit format"
+    exit 1
+  }
+}
+```
+
+---
+
+# STEP 11 — Execution loop
+
+```bash
+COUNT=0
+
+for each group:
+
+  MESSAGE=$(build_message "$TYPE" "$SCOPE" "$SUBJECT")
+
+  validate_commit "$MESSAGE"
+
+  git add <files>
+
+  if [ "$ENABLE_SIGN" = true ]; then
+    git commit -m "$MESSAGE" --no-verify -S
+  else
+    git commit -m "$MESSAGE" --no-verify
+  fi
+
+  COUNT=$((COUNT+1))
+done
+```
+
+---
+
+# STEP 12 — Report
+
+```bash
+echo ""
+echo "Commit Summary"
+echo "===================="
+
+i=1
+for each group:
+  echo "$i. $TYPE ($SCOPE)"
+  echo "   -> $SUBJECT"
+  i=$((i+1))
+done
+
+echo ""
+echo "Total commits: $COUNT"
+```
+
+---
+
+# Safety rules
+
+- Never commit secrets
+- Fail-fast on invalid config
+- `.goji.json` = domain authority
+- `jasper.toml` = policy authority
+- `task validate` runs once and is mandatory
