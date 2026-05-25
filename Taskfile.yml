@@ -17,8 +17,9 @@ includes:
   biome: ./src/biomejs/Taskfile.yml
   sonar: ./src/sonar/Taskfile.yml
   terraform: ./src/terraform/Taskfile.yml
+  node: ./src/node/Taskfile.yml
   bun: ./src/bun/Taskfile.yml
-  opencode: ./src/opencode/Taskfile.yml
+  ai: ./src/ai/Taskfile.yml
   go: ./src/go/Taskfile.yml
   skills: ./src/skills/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
@@ -106,8 +107,9 @@ tasks:
       - changelog:check
       - git:check
       - docs:check
-      - opencode:check
+      - ai:check
       - bun:check
+      - node:check
       - skills:check
 
   readme:
@@ -140,14 +142,17 @@ tasks:
       - >-
         [ -e ".env" ] || cp -rf .env.example .env
       - task: git:setup
+      - task: ai:setup
       - task: skills:setup
 
   environment:
     desc: Setup environment of project
     cmds:
+      - task: node:environment
       - task: uv:environment
-      - task: bun:setup
+      - task: bun:environment
       - task: pre-commit:setup
+      - task: ai:environment
 
   validate:
     desc: "Run validate on all files"
