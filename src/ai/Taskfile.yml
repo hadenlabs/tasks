@@ -1,0 +1,133 @@
+---
+version: "3"
+
+vars:
+  AI_NAMESPACE: ai
+
+tasks:
+  check:
+    desc: Exist ai and dependencies
+    run: once
+    deps:
+      - task: check:opencode
+      - task: check:curl
+      - task: check:bun
+
+  check:curl:
+    desc: Exist curl
+    run: once
+    preconditions:
+      - sh: command -v curl
+        msg: "Please Install curl"
+
+  check:bun:
+    desc: Exist bun
+    run: once
+    preconditions:
+      - sh: command -v bun
+        msg: "Please Install bun"
+
+  check:opencode:
+    desc: Exist opencode
+    run: once
+    preconditions:
+      - sh: command -v opencode
+        msg: "Please Install opencode"
+
+  check:openspec:
+    desc: Exist openspec
+    run: once
+    preconditions:
+      - sh: command -v openspec
+        msg: "Please Install openspec"
+
+  check:codegraph:
+    desc: Exist codegraph
+    run: once
+    preconditions:
+      - sh: command -v codegraph
+        msg: "Please Install codegraph"
+
+  setup:
+    desc: setup all.
+    cmds:
+      - task: setup:codegraph
+      - task: setup:openspec
+
+  codegraph:init:
+    cmds:
+      - codegraph init -i
+
+  codegraph:sync:
+    cmds:
+      - codegraph sync
+
+  setup:codegraph:
+    desc: Setup codegraph
+    run: once
+    cmds:
+      - |
+        if [ -d ".codegraph" ]; then
+          task {{.AI_NAMESPACE}}:codegraph:sync
+        else
+          task {{.AI_NAMESPACE}}:codegraph:init
+        fi
+    deps:
+      - task: check:codegraph
+
+  openspec:init:
+    desc: Initialize OpenSpec
+    cmds:
+      - openspec init --tools opencode
+
+  openspec:update:
+    desc: Sync OpenSpec
+    cmds:
+      - openspec update
+
+  setup:openspec:
+    desc: Setup OpenSpec
+    run: once
+    cmds:
+      - |
+        if [ -d ".openspec" ]; then
+          task {{.AI_NAMESPACE}}:openspec:update
+        else
+          task {{.AI_NAMESPACE}}:openspec:init
+        fi
+    deps:
+      - task: check:openspec
+
+  environment:
+    desc: Environment all.
+    cmds:
+      - task: environment:opencode
+      - task: environment:codegraph
+      - task: environment:openspec
+
+  environment:opencode:
+    desc: Environment opencode.
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v opencode)" ] || curl -fsSL https://opencode.ai/install | bash'
+        silent: true
+    deps:
+      - task: check:curl
+
+  environment:codegraph:
+    desc: Environment codegraph.
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v codegraph)" ] || curl -fsSL https://raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh | sh'
+        silent: true
+    deps:
+      - task: check:curl
+
+  environment:openspec:
+    desc: Environment openspec.
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v openspec)" ] || bun install -g @fission-ai/openspec@latest'
+        silent: true
+    deps:
+      - task: check:bun
