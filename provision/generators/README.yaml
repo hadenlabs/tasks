@@ -85,7 +85,7 @@ modules:
   - docs/tasks/version.md
   - docs/tasks/docs.md
   - docs/tasks/confluence.md
-  - docs/tasks/opencode.md
+  - docs/tasks/ai.md
   - docs/tasks/skills.md
   - docs/tasks/biome.md
   - docs/tasks/mark.md
