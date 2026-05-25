@@ -24,6 +24,22 @@ tasks:
         msg: "Please Install curl"
 
   setup:
+    desc: Setup bun dependences.
+    run: once
+    cmds:
+      - bun install
+    deps:
+      - task: check:bun
+
+  update:
+    desc: Update packages.
+    run: once
+    cmds:
+      - bun run ncu:patch
+    deps:
+      - task: check:bun
+
+  environment:
     desc: Install bun if not present
     run: once
     cmds:

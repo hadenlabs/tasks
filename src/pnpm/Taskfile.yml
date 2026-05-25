@@ -6,7 +6,7 @@ tasks:
     run: once
     deps:
       - task: check:pnpm
-      - task: check:fnm
+      - task: check:curl
 
   check:pnpm:
     desc: Exist pnpm
@@ -15,12 +15,13 @@ tasks:
       - sh: command -v pnpm
         msg: "Please Install pnpm"
 
-  check:fnm:
-    desc: Exist fnm
+  check:curl:
+    desc: Exist curl
     run: once
     preconditions:
-      - sh: test "command -v fnm"
-        msg: "Please Install fnm"
+      - sh: command -v curl
+        msg: "Please Install curl"
+
 
   setup:
     desc: Setup pnpm dependences.
@@ -39,9 +40,15 @@ tasks:
       - task: check:pnpm
 
   environment:
-    desc: Setup environment fnm version node.
+    desc: Install pnpm if not present
     run: once
     cmds:
-      - fnm use {{.NODE_VERSION}}
+      - cmd: '[ -n "$(command -v pnpm)" ] || curl -fsSL https://get.pnpm.io/install.sh | sh -'
+        silent: true
     deps:
-      - task: check
+      - task: check:curl
+
+
+
+
+
