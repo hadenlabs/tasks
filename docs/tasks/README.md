@@ -91,5 +91,4 @@ Detailed documentation for each Taskfile module.
 
 | Module | Description |
 |--------|-------------|
-| [opencode](opencode.md) | OpenCode config |
-| [skills](skills.md) | OpenCode skills |
+| [skills](skills.md) | Agents skills |

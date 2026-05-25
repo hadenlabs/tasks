@@ -40,7 +40,6 @@ See [docs/tasks/](/docs/tasks/) for detailed documentation on each module:
 | [bun](/docs/tasks/bun.md) | Bun runtime |
 | [release](/docs/tasks/release.md) | Version bumps |
 | [confluence](/docs/tasks/confluence.md) | Confluence sync |
-| [opencode](/docs/tasks/opencode.md) | OpenCode config |
 | [docs](/docs/tasks/docs.md) | MkDocs documentation |
 | And more... | |
 
