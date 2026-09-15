@@ -1,0 +1,51 @@
+# .ci/linters/.lychee.toml
+# Configuration for lychee link checker
+# Migrated from markdown-link-config.json
+
+# Only scan Markdown files
+extensions = ["md"]
+
+# Cache configuration
+cache = true
+max_cache_age = "1day"
+
+# Request configuration
+timeout = 10
+max_retries = 1
+
+# Concurrency
+max_concurrency = 64
+
+# Request method
+method = "HEAD"
+
+# Skip unnecessary checks
+include_mail = false
+include_fragments = "none"
+
+# Accept status codes
+accept = [200, 201, 202, 206]
+
+# Exclude URLs matching these patterns
+exclude = [
+    "^http://localhost",
+    "^https://codip\\.pe",
+    "^https://hadenlabs/com",
+    "^https://github\\.com/hadenlabs/tasks",
+]
+
+# Remap relative paths to absolute GitHub URLs
+remap = [
+    "^/docs https://github.com/hadenlabs/tasks/docs",
+    "^/ https://github.com/hadenlabs/tasks/",
+]
+
+# Exclude these file paths from checking
+exclude_path = [
+    ".codi",
+    "data/patterns",
+    "docs/env-vars.md",
+    "docs/include/terraform.md",
+    ".*\\.tpl\\.md",
+    "\\.docs/",
+]

@@ -1,264 +1,234 @@
 title = "gitleaks config"
 
-[[rules]]
-    description = "AWS Access Key"
-    regex = '''(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}'''
-    tags = ["key", "AWS"]
-    [rules.allowlist]
-        description = "ignore value fake"
-        regexes = [
-            '''AIDAQEAAAAAAAAAAAAAA''',
-        ]
+minVersion = "v8.25.0"
 
-[[rules]]
-    description = "AWS cred file info"
-    regex = '''(?i)(aws_access_key_id|aws_secret_access_key)(.{0,20})?=.[0-9a-zA-Z\/+]{20,40}'''
-    tags = ["AWS"]
-
-[[rules]]
-    description = "AWS Secret Key"
-    regex = '''(?i)aws(.{0,20})?(?-i)['\"][0-9a-zA-Z\/+]{40}['\"]'''
-    tags = ["key", "AWS"]
-
-[[rules]]
-    description = "AWS MWS key"
-    regex = '''amzn\.mws\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'''
-    tags = ["key", "AWS", "MWS"]
-
-[[rules]]
-  description = "Facebook Secret Key"
-  regex = '''(?i)(facebook|fb)(.{0,20})?(?-i)['\"][0-9a-f]{32}['\"]'''
-  tags = ["key", "Facebook"]
-
-[[rules]]
-  description = "Facebook Client ID"
-  regex = '''(?i)(facebook|fb)(.{0,20})?['\"][0-9]{13,17}['\"]'''
-  tags = ["key", "Facebook"]
-
-[[rules]]
-  description = "Facebook access token"
-  regex = '''EAACEdEose0cBA[0-9A-Za-z]+'''
-  tags = ["key", "Facebook"]
-
-[[rules]]
-    description = "Twitter Secret Key"
-    regex = '''(?i)twitter(.{0,20})?['\"][0-9a-z]{35,44}['\"]'''
-    tags = ["key", "Twitter"]
-
-[[rules]]
-    description = "Twitter Client ID"
-
-    regex = '''(?i)twitter(.{0,20})?['\"][0-9a-z]{18,25}['\"]'''
-    tags = ["client", "Twitter"]
-
-[[rules]]
-    description = "Github"
-    regex = '''(?i)github(.{0,20})?(?-i)['\"][0-9a-zA-Z]{35,40}['\"]'''
-    tags = ["key", "Github"]
-
-[[rules]]
-    description = "LinkedIn Client ID"
-    regex = '''(?i)linkedin(.{0,20})?(?-i)['\"][0-9a-z]{12}['\"]'''
-    tags = ["client", "LinkedIn"]
-
-[[rules]]
-    description = "LinkedIn Secret Key"
-    regex = '''(?i)linkedin(.{0,20})?['\"][0-9a-z]{16}['\"]'''
-    tags = ["secret", "LinkedIn"]
-
-[[rules]]
-    description = "Slack"
-    regex = '''xox[baprs]-([0-9a-zA-Z]{10,48})?'''
-    tags = ["key", "Slack"]
-
-[[rules]]
-    description = "EC"
-    regex = '''-----BEGIN EC PRIVATE KEY-----'''
-    tags = ["key", "EC"]
-
-[[rules]]
-    description = "Google API key"
-    regex = '''AIza[0-9A-Za-z\\-_]{35}'''
-    tags = ["key", "Google"]
-
-[[rules]]
-  description = "Google Cloud Platform API key"
-  regex = '''(?i)(google|gcp|youtube|drive|yt)(.{0,20})?['\"][AIza[0-9a-z\\-_]{35}]['\"]'''
-  tags = ["key", "Google", "GCP"]
-
-[[rules]]
-  description = "Google OAuth"
-  regex = '''(?i)(google|gcp|auth)(.{0,20})?['"][0-9]+-[0-9a-z_]{32}\.apps\.googleusercontent\.com['"]'''
-  tags = ["key", "Google", "OAuth"]
-
-[[rules]]
-  description = "Google OAuth access token"
-  regex = '''ya29\.[0-9A-Za-z\-_]+'''
-  tags = ["key", "Google", "OAuth"]
-
-[[rules]]
-    description = "Heroku API key"
-    regex = '''(?i)heroku(.{0,20})?['"][0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}['"]'''
-    tags = ["key", "Heroku"]
-
-[[rules]]
-    description = "MailChimp API key"
-    regex = '''(?i)(mailchimp|mc)(.{0,20})?['"][0-9a-f]{32}-us[0-9]{1,2}['"]'''
-    tags = ["key", "Mailchimp"]
-
-[[rules]]
-    description = "Mailgun API key"
-    regex = '''(?i)(mailgun|mg)(.{0,20})?['"][0-9a-z]{32}['"]'''
-    tags = ["key", "Mailgun"]
-
-[[rules]]
-    description = "PayPal Braintree access token"
-    regex = '''access_token\$production\$[0-9a-z]{16}\$[0-9a-f]{32}'''
-    tags = ["key", "Paypal"]
-
-[[rules]]
-    description = "Picatic API key"
-    regex = '''sk_live_[0-9a-z]{32}'''
-    tags = ["key", "Picatic"]
-
-[[rules]]
-    description = "Slack Webhook"
-    regex = '''https://hooks.slack.com/services/T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}'''
-    tags = ["key", "slack"]
-
-[[rules]]
-    description = "Stripe API key"
-    regex = '''(?i)stripe(.{0,20})?['\"'][sk|rk]_live_[0-9a-zA-Z]{24}'''
-    tags = ["key", "Stripe"]
-
-[[rules]]
-    description = "Square access token"
-    regex = '''sq0atp-[0-9A-Za-z\-_]{22}'''
-    tags = ["key", "square"]
-
-[[rules]]
-    description = "Square OAuth secret"
-    regex = '''sq0csp-[0-9A-Za-z\\-_]{43}'''
-    tags = ["key", "square"]
-
-[[rules]]
-    description = "Twilio API key"
-    regex = '''(?i)twilio(.{0,20})?['\"][0-9a-f]{32}['\"]'''
-    tags = ["key", "twilio"]
-
-[[rules]]
-  description = "Password in URL"
-  regex = '''[a-zA-Z]{3,10}:\/\/[^\/\s:@]{3,20}:[^\/\s:@]{3,20}@.{1,100}\/?.?'''
-  tags = ["key", "URL", "generic"]
-
-
-[[rules]]
-    description = "Env Var"
-    regex = '''(?i)(apikey|secret|key|api|password|pass|pw|host)=[0-9a-zA-Z-_.{}]{4,120}'''
-    tags = ["env"]
-    [rules.allowlist]
-        description = "ignore value fake"
-        regexes = [
-            '''host=HOST''',
-            '''--private-key={{.PRIVATE_KEY_FILE}}''',
-            '''PASSWORD=XXXXXX''',
-            '''password={password}''',
-        ]
-
-[[rules]]
-    description = "High Entropy"
-    regex = '''[0-9a-zA-Z-_!{}/=]{4,120}'''
-    file = '''(?i)(dump.sql|high-entropy-misc.txt)$'''
-    tags = ["entropy"]
-    [[rules.Entropies]]
-        Min = "4.3"
-        Max = "7.0"
-    [rules.allowlist]
-        description = "ignore some"
-        files = ['''(.*pub|env)$''']
-        paths = ['''(security.*)''']
-
-[[rules]]
-    description = "Potential bash var"
-    regex='''(?i)(=)([0-9a-zA-Z-_!{}=]{4,120})'''
-    tags = ["key", "bash", "API", "generic"]
-        [[rules.Entropies]]
-            Min = "3.5"
-            Max = "4.5"
-            Group = "1"
-
-[[rules]]
-    description = "WP-Config"
-    regex='''define(.{0,20})?(DB_CHARSET|NONCE_SALT|LOGGED_IN_SALT|AUTH_SALT|NONCE_KEY|DB_HOST|DB_PASSWORD|AUTH_KEY|SECURE_AUTH_KEY|LOGGED_IN_KEY|DB_NAME|DB_USER)(.{0,20})?['|"'].{10,120}['|"']'''
-    tags = ["key", "API", "generic"]
-
-[[rules]]
-  description = "Generic API Key"
-  regex = '''[a|A][p|P][i|I][_]?[k|K][e|E][y|Y].*['|\"][0-9a-zA-Z]{32,45}['|\"]'''
-
-[[rules]]
-  description = "Generic Secret"
-  regex = '''[s|S][e|E][c|C][r|R][e|E][t|T].*['|\"][0-9a-zA-Z]{32,45}['|\"]'''
-
-
-[[rules]]
-    description = "Files with keys and credentials"
-    file = '''(?i)(id_rsa|passwd|id_rsa.pub|pgpass)$'''
-    tags = ["key", "files"]
-    [rules.allowlist]
-        description = "ignore some"
-        files = ['''(.*pub|env)$''']
-
-[[rules]]
-    description = "Extension Files with keys and credentials"
-    file = '''(.*?)(pub|pem|ppk|key)$'''
-    tags = ["key", "files"]
-    [rules.allowlist]
-        description = "ignore file test"
-        files = [
-          '''.*-test.*$''',
-        ]
-
+#######################################
 # Global allowlist
+#######################################
+
 [allowlist]
-  description = "Whitelisted files"
-  paths = [
-    '''^vendor/''',
-    '''^bower_components/''',
-    '''^public/''',
-    '''^node_modules/''',
-    '''^theme/''',
-  ]
-  files = [
-    '''(.*?)(jpg|gif|png|doc|pdf|bin|mp3|mp4|mov|ttf|woff|woff2|eot|lock)$''',
-    '''^\.gitignore$''',
-    '''^\.gitleaks.toml$''',
-    '''^yarn.lock$''',
-    '''^vendor/(.*?)$''',
-    '''^sonar-project.properties$''',
-    '''^test/fixtures/keys/.*-test.*$''',
-    '''^node_modules/(.*?)$''',
-  ]
-  commits = []
 
-[whitelist]
-  description = "image and html allowlists"
-  paths = [
-    '''^vendor/''',
-    '''^bower_components/''',
-    '''^public/''',
-    '''^node_modules/''',
-    '''^theme/''',
-  ]
+description = "Ignored paths and files"
+files = [
+  '''^\.?gitleaks.toml$''',
+  '''(.*?)(png|jpg|gif|doc|docx|pdf|bin|xls|pyc|zip)$''',
+  '''(go.mod|go.sum)$''',
+]
 
-  files = [
-    '''(.*?)(jpg|gif|png|doc|pdf|bin|mp3|mp4|mov|ttf|woff|woff2|eot|lock)$''',
-    '''^\.gitignore$''',
-    '''^\.gitleaks.toml$''',
-    '''^\.gitignore$''',
-    '''^yarn.lock$''',
-    '''^sonar-project.properties$''',
-    '''^test/fixtures/keys/.*-test.*$''',
-  ]
+paths = [
+  '''gitleaks\.toml''',
+  '''(^|/)linters/\.gitleaks\.toml$''',
+  '''^\.gitleaks\.toml$''',
+  '''^\.gitleaks.toml$''',
+  '''^linters/\.gitleaks\.toml$''',
+  '''secrets\.enc\.yaml$''',
+  '''^vendor/''',
+  '''^bower_components/''',
+  '''^public/''',
+  '''^theme/''',
+  '''^node_modules/''',
+  '''(?i).*\.(jpg|gif|png|doc|pdf|bin|mp3|mp4|mov|ttf|woff|woff2|eot|lock)$''',
+  '''^\.gitignore$''',
+  '''^yarn\.lock$''',
+  '''^package-lock\.json$''',
+  '''FOOEYEDONTEXIST''',
+  '''README\.md$''',
+]
 
-  commits = []
+
+#######################################
+# AWS
+#######################################
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''(AKIA|ASIA|A3T[A-Z0-9]|AGPA|AIDA|AROA|AIPA|ANPA|ANVA)[A-Z0-9]{16}'''
+tags = ["key", "AWS"]
+
+[[rules.allowlists]]
+description = "Fake AWS values"
+regexes = ['''AIDAQEAAAAAAAAAAAAAA''']
+
+
+[[rules]]
+id = "aws-credentials"
+description = "AWS credentials"
+regex = '''(?i)(aws_access_key_id|aws_secret_access_key)\s*=\s*['"]?[A-Za-z0-9/+=]{20,40}['"]?'''
+tags = ["key", "AWS"]
+
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Key"
+regex = '''(?i)aws(.{0,20})?['"][0-9a-zA-Z/+=]{40}['"]'''
+tags = ["key", "AWS"]
+
+
+#######################################
+# Cloud / SaaS tokens
+#######################################
+
+[[rules]]
+id = "google-api-key"
+description = "Google API Key"
+regex = '''AIza[0-9A-Za-z\-_]{35}'''
+tags = ["key", "Google"]
+
+
+[[rules]]
+id = "google-oauth"
+description = "Google OAuth"
+regex = '''[0-9]+-[0-9a-z_]{32}\.apps\.googleusercontent\.com'''
+tags = ["key", "Google", "OAuth"]
+
+
+[[rules]]
+id = "google-oauth-access-token"
+description = "Google OAuth Access Token"
+regex = '''ya29\.[0-9A-Za-z\-_]+'''
+tags = ["key", "Google"]
+
+
+[[rules]]
+id = "slack-token"
+description = "Slack Token"
+regex = '''xox[baprs]-[0-9a-zA-Z]{10,48}'''
+tags = ["key", "Slack"]
+
+
+[[rules]]
+id = "slack-webhook"
+description = "Slack Webhook"
+regex = '''https://hooks\.slack\.com/services/T[a-zA-Z0-9_]{8}/B[a-zA-Z0-9_]{8}/[a-zA-Z0-9_]{24}'''
+tags = ["key", "Slack"]
+
+
+#######################################
+# GitHub
+#######################################
+
+[[rules]]
+id = "github-token"
+description = "GitHub Token"
+regex = '''gh[pousr]_[A-Za-z0-9_]{36,255}'''
+tags = ["key", "Github"]
+
+
+#######################################
+# Private keys
+#######################################
+
+[[rules]]
+id = "ec-private-key"
+description = "EC Private Key"
+regex = '''-----BEGIN EC PRIVATE KEY-----'''
+tags = ["key"]
+
+
+[[rules]]
+id = "rsa-private-key"
+description = "RSA Private Key"
+regex = '''-----BEGIN (RSA|OPENSSH|PRIVATE) KEY-----'''
+tags = ["key"]
+
+
+#######################################
+# Payment providers
+#######################################
+
+[[rules]]
+id = "stripe-live-key"
+description = "Stripe Live Key"
+regex = '''['"]?(sk|rk)_live_[0-9a-zA-Z]{24,}'''
+tags = ["key", "Stripe"]
+
+
+#######################################
+# Generic secrets
+#######################################
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey)\s*[:=]\s*['"][0-9a-zA-Z_\-]{20,120}['"]'''
+tags = ["key"]
+
+
+[[rules]]
+id = "generic-secret"
+description = "Generic Secret"
+regex = '''(?i)(secret|token|password|passwd|pwd)\s*[:=]\s*['"][^'"]{8,120}['"]'''
+tags = ["secret"]
+
+
+#######################################
+# URLs with credentials
+#######################################
+
+[[rules]]
+id = "password-in-url"
+description = "Password in URL"
+regex = '''[a-zA-Z]{3,10}://[^/\s:@]{3,20}:[^/\s:@]{3,20}@'''
+tags = ["url", "secret"]
+
+
+#######################################
+# Environment variables
+#######################################
+
+[[rules]]
+id = "environment-secret"
+description = "Environment Secret"
+regex = '''(?i)(apikey|secret|token|password|passwd|pwd)\s*=\s*[0-9a-zA-Z._{}\-]{4,120}'''
+tags = ["env"]
+
+[[rules.allowlists]]
+description = "Fake environment values"
+regexes = ['''PASSWORD=XXXXXX''', '''password={password}''', '''host=HOST''', '''token = string''']
+
+
+#######################################
+# Terraform / Infra
+#######################################
+
+[[rules]]
+id = "terraform-sensitive-values"
+description = "Terraform Sensitive Values"
+regex = '''(?i)(secret|password|token|key)\s*=\s*["'][^"']{8,120}["']'''
+tags = ["terraform"]
+
+
+#######################################
+# High entropy strings
+#######################################
+
+[[rules]]
+id = "high-entropy-secret"
+description = "High Entropy Secret"
+regex = '''[0-9a-zA-Z_\-!]{20,120}'''
+tags = ["entropy"]
+entropy = 4.3
+
+
+#######################################
+# Sensitive files
+#######################################
+
+[[rules]]
+id = "credential-files"
+description = "Credential files"
+path = '''(?i)(id_rsa|passwd|\.pgpass|credentials)$'''
+tags = ["files"]
+
+
+[[rules]]
+id = "key-files"
+description = "Key files"
+path = '''(?i).*\.(pem|ppk|key)$'''
+tags = ["files"]
+
+[[rules.allowlists]]
+description = "Ignore test keys"
+paths = ['''.*-test.*''']
+

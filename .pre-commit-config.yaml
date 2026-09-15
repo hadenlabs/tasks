@@ -97,19 +97,24 @@ repos:
       - id: file-contents-sorter
       - id: sort-simple-yaml
 
-  - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.14.2
+  - repo: https://github.com/lycheeverse/lychee
+    rev: lychee-v0.24.2
     hooks:
-      - id: markdown-link-check
+      - id: lychee-system
+        types: [markdown]
         args:
-          - --config=.ci/linters/markdown-link-config.json
+          - --config=.ci/linters/.lychee.toml
+          - --no-progress
+          - --root-dir=.
         exclude: >
           (?x)^(
-          .+\.docs/env-vars.md$|
-          .+\.tpl.md$|
+          .+\.docs/env-vars\.md$|
+          .+\.tpl\.md$|
+          .codi\/.*$|
           data/patterns\/.*$|
           docs/env-vars.md$|
           docs\/include\/terraform.md$|
+          provision/.*/README\.md$
           )$
 
   - repo: https://github.com/hadenlabs/pre-commit-hooks
@@ -126,11 +131,12 @@ repos:
           )$
         args:
           - --exclude=SC1072,SC1073,SC2068
-      - id: gitleaks
-        args:
-          - --path=.
-          - --repo-config-path=.ci/linters/.gitleaks.toml
-          - --verbose
       - id: hadolint
         args:
           - --config=.ci/linters/.hadolint.yaml
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+        args:
+          - --config=.ci/linters/.gitleaks.toml
