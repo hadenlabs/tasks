@@ -266,3 +266,4 @@ The code and styles are licensed under the LGPL-3.0 license [See project license
 
 
 [Your feedback is appreciated](https://github.com/hadenlabs/tasks/issues)
+
