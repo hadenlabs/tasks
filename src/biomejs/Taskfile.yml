@@ -51,7 +51,7 @@ tasks:
     desc: Fix lint violations automatically.
     run: once
     cmds:
-      - bunx @biomejs/biome lint . --write --max-diagnostics=none --unsafe
+      - bunx @biomejs/biome check . --write
     deps:
       - task: check:bunx
 
