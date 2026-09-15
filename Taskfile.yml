@@ -162,6 +162,12 @@ tasks:
       - task: biome:fmt
       - task: uv:fmt
 
+  fix:
+    desc: Execute fix files
+    cmds:
+      - task: biome:fix
+      - task: uv:fix
+
   upgrade:
     desc: Execute upgrade packages
     cmds:

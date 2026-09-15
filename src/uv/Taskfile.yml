@@ -69,6 +69,13 @@ tasks:
       - cmd: >-
           uvx ruff format ./ {{.CLI_ARGS}}
 
+  fix:
+    desc: Fix lint issues with ruff
+    run: once
+    cmds:
+      - cmd: >-
+          uvx ruff check ./ --fix {{.CLI_ARGS}}
+
   lint:
     desc: Lint with ruff
     cmds:

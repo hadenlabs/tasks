@@ -14,14 +14,14 @@ tasks:
     run: once
     preconditions:
       - sh: command -v tuicr
-        msg: "Please Install tuicr"
+        msg: "tuicr is not installed. Install: cargo install tuicr"
 
   check:jq:
     desc: Exist jq
     run: once
     preconditions:
       - sh: command -v jq
-        msg: "Please Install jq"
+        msg: "jq is not installed. Install: https://jqlang.github.io/jq/download/"
 
   setup:
     desc: Setup tuicr for code review
