@@ -12,6 +12,8 @@ tasks:
       - task: check:opencode
       - task: check:curl
       - task: check:bun
+      - task: check:uv
+      - task: check:graphify
 
   check:curl:
     desc: Exist curl
@@ -48,11 +50,26 @@ tasks:
       - sh: command -v codegraph
         msg: "Please Install codegraph"
 
+  check:uv:
+    desc: Exist uv
+    run: once
+    preconditions:
+      - sh: command -v uv
+        msg: "Please Install uv"
+
+  check:graphify:
+    desc: Exist graphify
+    run: once
+    preconditions:
+      - sh: command -v graphify
+        msg: "Please Install graphify"
+
   setup:
     desc: setup all.
     cmds:
       - task: setup:codegraph
       - task: setup:openspec
+      - task: setup:graphify
 
   codegraph:init:
     cmds:
@@ -74,6 +91,24 @@ tasks:
         fi
     deps:
       - task: check:codegraph
+
+  setup:graphify:
+    desc: Setup graphify
+    run: once
+    cmds:
+      - graphify install --platform opencode --project
+    deps:
+      - task: check:graphify
+
+  graphify:init:
+    desc: Initialize graphify graph
+    cmds:
+      - graphify extract .
+
+  graphify:sync:
+    desc: Sync graphify graph
+    cmds:
+      - graphify extract . --update
 
   openspec:init:
     desc: Initialize OpenSpec
@@ -103,6 +138,7 @@ tasks:
     cmds:
       - task: environment:opencode
       - task: environment:codegraph
+      - task: environment:graphify
       - task: environment:openspec
 
   environment:opencode:
@@ -122,6 +158,15 @@ tasks:
         silent: true
     deps:
       - task: check:curl
+
+  environment:graphify:
+    desc: Environment graphify.
+    run: once
+    cmds:
+      - cmd: '[ -n "$(command -v graphify)" ] || uv tool install graphifyy'
+        silent: true
+    deps:
+      - task: check:uv
 
   environment:openspec:
     desc: Environment openspec.

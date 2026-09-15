@@ -1,0 +1,59 @@
+---
+version: "3"
+
+tasks:
+  check:
+    desc: Exist tuicr and dependencies
+    run: once
+    deps:
+      - task: check:tuicr
+      - task: check:jq
+
+  check:tuicr:
+    desc: Exist tuicr
+    run: once
+    preconditions:
+      - sh: command -v tuicr
+        msg: "Please Install tuicr"
+
+  check:jq:
+    desc: Exist jq
+    run: once
+    preconditions:
+      - sh: command -v jq
+        msg: "Please Install jq"
+
+  setup:
+    desc: Setup tuicr for code review
+    run: once
+    cmds:
+      - echo "tuicr ready"
+    deps:
+      - task: check
+
+  start:
+    desc: Start a code review for current changes
+    run: once
+    cmds:
+      - tuicr -w
+    deps:
+      - task: check
+
+  sessions:
+    desc: Get available code review sessions as JSON
+    run: once
+    cmds:
+      - tuicr review list --repo .
+    deps:
+      - task: check
+
+  feedback:
+    desc: Get feedback from the active code review session
+    run: once
+    cmds:
+      - |
+        SESSION=$(tuicr review list --repo . | jq -r '.[] | select(.active == true) | .slug')
+        test -n "$SESSION" || { echo "No active review session found"; exit 1; }
+        tuicr review comments --repo . --session "$SESSION"
+    deps:
+      - task: check
