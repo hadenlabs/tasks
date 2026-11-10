@@ -1,0 +1,191 @@
+---
+version: "3"
+
+tasks:
+  default:
+    desc: List all available tasks
+    cmds:
+      - task -t {{.TASKFILE_DIR}}/Taskfile.yml --list
+
+  check:
+    desc: Check all dependencies
+    run: once
+    deps:
+      - task: check:nix
+
+  check:nix:
+    desc: Check if nix is installed
+    run: once
+    preconditions:
+      - sh: command -v nix
+        msg: "nix is not installed. Install from https://nixos.org/download/ or run: curl -fsSL https://install.determinate.systems/nix | sh -s -- install"
+
+  check:flake:
+    desc: Check if flake.nix exists
+    run: once
+    preconditions:
+      - sh: test -f flake.nix
+        msg: "No flake.nix found in the project root. Initialize with: nix flake init"
+
+  check:direnv:
+    desc: Check if direnv is installed
+    run: once
+    preconditions:
+      - sh: command -v direnv
+        msg: "direnv is not installed. Install from https://direnv.net/"
+
+  fmt:
+    desc: Format Nix files
+    run: once
+    cmds:
+      - cmd: |
+          if [ -f flake.nix ]; then
+            nix fmt {{.CLI_ARGS}}
+          else
+            nixfmt . {{.CLI_ARGS}}
+          fi
+    deps:
+      - task: check:nix
+
+  lint:
+    desc: Lint Nix files with statix
+    run: once
+    cmds:
+      - cmd: >-
+          statix check . {{.CLI_ARGS}}
+    deps:
+      - task: check:nix
+
+  fix:
+    desc: Fix Nix lint issues with statix
+    run: once
+    cmds:
+      - cmd: >-
+          statix fix . {{.CLI_ARGS}}
+    deps:
+      - task: check:nix
+
+  test:
+    desc: Run nix flake check
+    run: once
+    cmds:
+      - cmd: >-
+          nix flake check
+    deps:
+      - task: check:nix
+      - task: check:flake
+
+  show:
+    desc: Show flake outputs
+    run: once
+    cmds:
+      - cmd: >-
+          nix flake show
+    deps:
+      - task: check:nix
+      - task: check:flake
+
+  lock:
+    desc: Lock flake inputs
+    run: once
+    cmds:
+      - cmd: >-
+          nix flake lock
+    deps:
+      - task: check:nix
+      - task: check:flake
+
+  update:
+    desc: Update flake inputs
+    run: once
+    cmds:
+      - cmd: >-
+          nix flake update
+    deps:
+      - task: check:nix
+      - task: check:flake
+
+  develop:
+    desc: Enter nix development shell
+    run: once
+    cmds:
+      - cmd: >-
+          nix develop
+    deps:
+      - task: check:nix
+      - task: check:flake
+
+  run:
+    desc: Run a command in the nix development shell
+    run: once
+    cmds:
+      - cmd: >-
+          nix develop --command {{.CMD}}
+    deps:
+      - task: check:nix
+      - task: check:flake
+    preconditions:
+      - sh: test -n "{{.CMD}}"
+        msg: "Pass the command to run, e.g.: task nix:run CMD=\"task test\""
+
+  direnv:
+    desc: Allow direnv for this project
+    run: once
+    cmds:
+      - cmd: >-
+          direnv allow
+    deps:
+      - task: check:direnv
+      - task: check:nix
+      - task: check:flake
+
+  install:
+    desc: Install Nix if missing
+    run: once
+    cmds:
+      - cmd: |
+          if command -v nix >/dev/null 2>&1; then
+            echo "nix is already installed"
+          else
+            command -v curl >/dev/null 2>&1 || { echo "curl is required to install Nix"; exit 1; }
+            curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+          fi
+
+  reinstall:
+    desc: Reinstall nixfmt and statix in the nix profile
+    run: once
+    cmds:
+      - cmd: |
+          nix profile remove nixpkgs#nixfmt nixpkgs#statix 2>/dev/null || true
+          nix profile install nixpkgs#nixfmt nixpkgs#statix
+    deps:
+      - task: check:nix
+
+  gc:
+    desc: Collect nix garbage
+    run: once
+    cmds:
+      - cmd: >-
+          nix-collect-garbage
+    deps:
+      - task: check:nix
+
+  setup:
+    desc: Setup Nix tooling
+    run: once
+    deps:
+      - task: check:nix
+      - task: _setup
+    cmds:
+      - cmd: echo "Nix tooling ready"
+        silent: true
+  _setup:
+    desc: Internal helper to install nixfmt and statix
+    internal: true
+    run: once
+    cmds:
+      - cmd: >-
+          nix profile install nixpkgs#nixfmt nixpkgs#statix
+        silent: true
+    deps:
+      - task: check:nix
