@@ -19,10 +19,10 @@ includes:
   sonar: ./src/sonar/Taskfile.yml
   terraform: ./src/terraform/Taskfile.yml
   node: ./src/node/Taskfile.yml
+  nix: ./src/nix/Taskfile.yml
   bun: ./src/bun/Taskfile.yml
   ai: ./src/ai/Taskfile.yml
   go: ./src/go/Taskfile.yml
-  skills: ./src/skills/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
 
 env:
@@ -141,9 +141,7 @@ tasks:
       - changelog:check
       - git:check
       - docs:check
-      - ai:check
       - bun:check
-      - skills:check
 
   readme:
     desc: Generate Readme
@@ -180,8 +178,6 @@ tasks:
       - >-
         [ -e ".env" ] || cp -rf .env.example .env
       - task: git:setup
-      - task: ai:setup
-      - task: skills:setup
 
   environment:
     desc: Setup environment of project
@@ -190,7 +186,6 @@ tasks:
       - task: uv:environment
       - task: bun:environment
       - task: pre-commit:setup
-      - task: ai:environment
 
   validate:
     desc: "Run validate on all files"
