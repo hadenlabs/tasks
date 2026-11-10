@@ -441,7 +441,7 @@ tasks:
 - **Applies to**: module Taskfile.yml files
 - **Rationale**: Each module declares only the tools IT needs. The root aggregates; modules don't re-check everything.
 - **Example**: `src/go/Taskfile.yml` declares `check:go` only.
-- **Counter-example**: `src/go/Taskfile.yml` re-declares `check:docker` from `src/docker/`.
+- **Counter-example**: `src/go/Taskfile.yml` redeclares `check:docker` from `src/docker/`.
 
 ---
 
@@ -512,7 +512,7 @@ These are absolute prohibitions. Violating any one means the implementation is i
 1. **Inconsistent `---` marker** — every Taskfile.yml MUST start with `---` on line 1.
 2. **Unguarded `test {{.VAR}}** — MUST use `test -v VAR` (R6). Never `test "{{.VAR}}" == ""`.
 3. **Invented subcommands** — MUST NOT use `uv run command -v tool` or other non-existent subcommands (R14).
-4. **Duplicated checks** — MUST NOT re-declare checks from other modules (R15).
+4. **Duplicated checks** — MUST NOT redeclare checks from other modules (R15).
 5. **Missing `desc:`** — public tasks MUST have `desc:` (R2).
 6. **Mixed silent levels** — MUST NOT use `silent: true` on task level for work tasks (R11).
 7. **`run: always`** — MUST NOT use `run: always` (R3). Use `run: once`.
