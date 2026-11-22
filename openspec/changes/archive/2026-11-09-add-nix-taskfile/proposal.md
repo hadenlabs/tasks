@@ -20,6 +20,7 @@ This change was extended with an approved scope: a flake suite (`test`/`show`/`l
 ## Capabilities
 
 ### New Capabilities
+
 - `nix-taskfile`: Nix tooling Taskfile module providing availability checks, formatting, linting, fixing, setup, flake operations, install/reinstall, direnv, and garbage collection tasks following the repository's deterministic Taskfile contract.
 
 ### Modified Capabilities

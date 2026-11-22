@@ -12,6 +12,7 @@ Graphify builds knowledge graphs from code, docs, PDFs, images, and videos — q
 ## Capabilities
 
 ### New Capabilities
+
 - `graphify-integration`: Graphify CLI installation, skill registration with OpenCode, and project-level graph operations (build, query, path, explain)
 
 ### Modified Capabilities
