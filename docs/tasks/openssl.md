@@ -5,16 +5,18 @@ Generación de claves SSH y certificados.
 ## Tasks
 
 ### `openssl:check`
+
 Verifica OpenSSL.
 
 ### Claves por Ambiente
 
-| Task | Stage |
-|------|-------|
-| `openssl:make:pem:dev` | dev |
+| Task                       | Stage   |
+| -------------------------- | ------- |
+| `openssl:make:pem:dev`     | dev     |
 | `openssl:make:pem:testing` | testing |
 
 ### `openssl:make`
+
 Genera clave SSH y exporta a directorio.
 
 ```bash
@@ -31,10 +33,10 @@ mv {{.PROJECT_NAME}}.pub {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/
 
 ## Variables
 
-| Variable | Descripción |
-|----------|-------------|
-| `PROJECT_NAME` | Nombre del proyecto |
-| `STAGE` | Ambiente |
+| Variable               | Descripción            |
+| ---------------------- | ---------------------- |
+| `PROJECT_NAME`         | Nombre del proyecto    |
+| `STAGE`                | Ambiente               |
 | `KEYBASE_PROJECT_PATH` | Ruta base del proyecto |
 
 ## Dependencias

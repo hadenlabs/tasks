@@ -5,9 +5,11 @@ Sincronización de documentación a Confluence usando [Mark](https://github.com/
 ## Tasks
 
 ### `mark:check`
+
 Verifica Docker y variables de Confluence.
 
 ### `mark:sync`
+
 Sincroniza archivo Markdown a Confluence.
 
 ```bash
@@ -25,11 +27,11 @@ docker run \
 
 ## Variables Requeridas
 
-| Variable | Descripción |
-|----------|-------------|
-| `CONFLUENCE_BASE_URL` | URL base de Confluence |
-| `CONFLUENCE_ACCESS_TOKEN` | Token de acceso |
-| `CONFLUENCE_USER` | Usuario de Confluence |
+| Variable                  | Descripción            |
+| ------------------------- | ---------------------- |
+| `CONFLUENCE_BASE_URL`     | URL base de Confluence |
+| `CONFLUENCE_ACCESS_TOKEN` | Token de acceso        |
+| `CONFLUENCE_USER`         | Usuario de Confluence  |
 
 ## Dependencias
 

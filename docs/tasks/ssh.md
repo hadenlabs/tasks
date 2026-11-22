@@ -5,19 +5,21 @@ Generación y gestión de claves SSH.
 ## Tasks
 
 ### `ssh:check`
+
 Verifica ssh-keygen.
 
 ### SSH Keys por Ambiente
 
-| Task | Stage |
-|------|-------|
-| `ssh:make:pem:dev` | dev |
+| Task                   | Stage   |
+| ---------------------- | ------- |
+| `ssh:make:pem:dev`     | dev     |
 | `ssh:make:pem:staging` | staging |
 | `ssh:make:pem:testing` | testing |
-| `ssh:make:pem:prod` | prod |
-| `ssh:make:pem:custom` | custom |
+| `ssh:make:pem:prod`    | prod    |
+| `ssh:make:pem:custom`  | custom  |
 
 ### `ssh:make`
+
 Genera clave SSH y convierte a formato PEM.
 
 ```bash
@@ -29,6 +31,7 @@ chmod 0600 {{.PROJECT_NAME}}-{{.STAGE}}.pem
 ```
 
 ### `ssh:export`
+
 Exporta claves a directorio del proyecto.
 
 ```bash
@@ -39,6 +42,7 @@ mv {{.PROJECT_NAME}}-{{.STAGE}}.pem {{.KEYBASE_PROJECT_PATH}}/{{.STAGE}}/keys/
 ```
 
 ### `ssh:make:user`
+
 Genera clave SSH para usuario específico.
 
 ```bash
@@ -49,12 +53,12 @@ openssl rsa -in {{.USERNAME}} -outform pem > {{.USERNAME}}.pem
 
 ## Variables
 
-| Variable | Descripción |
-|----------|-------------|
-| `PROJECT_NAME` | Nombre del proyecto |
-| `STAGE` | Ambiente (dev, staging, prod, etc.) |
-| `USERNAME` | Nombre de usuario |
-| `KEYBASE_PROJECT_PATH` | Ruta base del proyecto |
+| Variable               | Descripción                         |
+| ---------------------- | ----------------------------------- |
+| `PROJECT_NAME`         | Nombre del proyecto                 |
+| `STAGE`                | Ambiente (dev, staging, prod, etc.) |
+| `USERNAME`             | Nombre de usuario                   |
+| `KEYBASE_PROJECT_PATH` | Ruta base del proyecto              |
 
 ## Dependencias
 

@@ -5,12 +5,15 @@ Gestión de recursos AWS.
 ## Tasks
 
 ### `aws:check-aws`
+
 Verifica que AWS CLI esté instalado.
 
 ### `aws:check-jq`
+
 Verifica que jq esté instalado.
 
 ### `aws:cleanup-kms`
+
 Encuentra y programa eliminación de KMS keys sin tag Name.
 
 ```bash
@@ -21,12 +24,13 @@ Encuentra y programa eliminación de KMS keys sin tag Name.
 
 **Variables:**
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `REGION` | us-east-2 | Región AWS |
-| `DAYS_TO_DELETION` | 7 | Días antes de eliminación |
+| Variable           | Default   | Descripción               |
+| ------------------ | --------- | ------------------------- |
+| `REGION`           | us-east-2 | Región AWS                |
+| `DAYS_TO_DELETION` | 7         | Días antes de eliminación |
 
 ### `aws:cleanup-efs`
+
 Elimina EFS file system y sus mount targets.
 
 ```bash
@@ -38,10 +42,10 @@ Elimina EFS file system y sus mount targets.
 
 **Variables:**
 
-| Variable | Descripción |
-|----------|-------------|
-| `REGION` | Región AWS (default: us-east-2) |
-| `FILE_SYSTEM_ID` | ID del EFS a eliminar |
+| Variable         | Descripción                     |
+| ---------------- | ------------------------------- |
+| `REGION`         | Región AWS (default: us-east-2) |
+| `FILE_SYSTEM_ID` | ID del EFS a eliminar           |
 
 ## Dependencias
 

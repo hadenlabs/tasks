@@ -5,9 +5,11 @@ Testing de roles Ansible con [Molecule](https://molecule.readthedocs.io).
 ## Tasks
 
 ### `molecule:check`
+
 Verifica Molecule.
 
 ### `molecule:test`
+
 Ejecuta test para escenario específico.
 
 ```bash
@@ -15,6 +17,7 @@ Ejecuta test para escenario específico.
 ```
 
 ### `molecule:test:all`
+
 Ejecuta todos los escenarios.
 
 ```bash
@@ -22,6 +25,7 @@ Ejecuta todos los escenarios.
 ```
 
 ### `molecule:scenario`
+
 Inicializa escenario.
 
 ```bash
@@ -32,14 +36,15 @@ Inicializa escenario.
 ```
 
 ### `molecule:scenario:test`
+
 Ejecuta test con escenario.
 
 ## Variables
 
-| Variable | Descripción |
-|----------|-------------|
-| `SCENARIO` | Nombre del escenario |
-| `PROJECT_NAME` | Nombre del rol |
+| Variable       | Descripción          |
+| -------------- | -------------------- |
+| `SCENARIO`     | Nombre del escenario |
+| `PROJECT_NAME` | Nombre del rol       |
 
 ## Dependencias
 

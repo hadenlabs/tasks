@@ -5,9 +5,11 @@ Gestión de proyectos Python.
 ## Tasks
 
 ### `python:check`
+
 Verifica Python, package manager y pre-commit.
 
 ### `python:setup`
+
 Instala dependencias de desarrollo.
 
 ```bash
@@ -15,6 +17,7 @@ Instala dependencias de desarrollo.
 ```
 
 ### `python:fmt`
+
 Formatea código con black.
 
 ```bash
@@ -22,6 +25,7 @@ Formatea código con black.
 ```
 
 ### `python:test`
+
 Ejecuta tests con pytest.
 
 ```bash
@@ -29,6 +33,7 @@ Ejecuta tests con pytest.
 ```
 
 ### `python:environment`
+
 Instala versión de Python.
 
 ```bash
@@ -36,6 +41,7 @@ Instala versión de Python.
 ```
 
 ### `python:precommit`
+
 Instala hooks de pre-commit.
 
 ```bash
@@ -47,9 +53,9 @@ Instala hooks de pre-commit.
 
 ## Variables
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `PYTHON_PACKAGE_MANAGER` | uv | Gestor de paquetes |
+| Variable                 | Default | Descripción        |
+| ------------------------ | ------- | ------------------ |
+| `PYTHON_PACKAGE_MANAGER` | uv      | Gestor de paquetes |
 
 ## Dependencias
 

@@ -5,9 +5,11 @@ Gestión de configuración de OpenCode.
 ## Tasks
 
 ### `opencode:check`
+
 Verifica OpenCode y curl.
 
 ### `opencode:setup`
+
 Instala OpenCode si no está presente.
 
 ```bash
@@ -15,12 +17,15 @@ Instala OpenCode si no está presente.
 ```
 
 ### `opencode:sync`
+
 Sincroniza commands, skills y context de OpenCode.
 
 ### `opencode:validate`
+
 Valida configuración de OpenCode.
 
 ### `opencode:check:all`
+
 Ejecuta sync y validate.
 
 ## Dependencias

@@ -5,9 +5,11 @@ Sincronización de documentación con Atlassian Confluence usando [Mark](https:/
 ## Tasks
 
 ### `confluence:check`
+
 Verifica Docker y variables de Confluence.
 
 ### `confluence:sync`
+
 Sincroniza archivos Markdown a Confluence.
 
 ```bash
@@ -22,6 +24,7 @@ docker run \
 ```
 
 ### `confluence:sync:all`
+
 Sincroniza todos los archivos `.md` con comentarios de Space.
 
 ```bash
@@ -29,6 +32,7 @@ Sincroniza todos los archivos `.md` con comentarios de Space.
 ```
 
 ### `confluence:sync:develop`
+
 Sincroniza archivos modificados vs rama develop.
 
 ```bash
@@ -36,19 +40,21 @@ Sincroniza archivos modificados vs rama develop.
 ```
 
 ### `confluence:sync:main`
+
 Sincroniza archivos modificados vs rama main.
 
 ### `confluence:sync:master`
+
 Sincroniza archivos modificados vs rama master.
 
 ## Variables Requeridas
 
-| Variable | Descripción |
-|----------|-------------|
-| `CONFLUENCE_BASE_URL` | URL base de Confluence |
-| `CONFLUENCE_ACCESS_TOKEN` | Token de acceso |
-| `CONFLUENCE_USER` | Usuario de Confluence |
-| `FILES_CONFLUENCE` | Archivos a sincronizar |
+| Variable                  | Descripción            |
+| ------------------------- | ---------------------- |
+| `CONFLUENCE_BASE_URL`     | URL base de Confluence |
+| `CONFLUENCE_ACCESS_TOKEN` | Token de acceso        |
+| `CONFLUENCE_USER`         | Usuario de Confluence  |
+| `FILES_CONFLUENCE`        | Archivos a sincronizar |
 
 ## Dependencias
 

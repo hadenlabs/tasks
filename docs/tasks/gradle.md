@@ -5,9 +5,11 @@ Gestión de proyectos Java/Kotlin con Gradle.
 ## Tasks
 
 ### `gradle:check`
+
 Verifica Gradle.
 
 ### `gradle:setup`
+
 Instala dependencias.
 
 ```bash
@@ -15,6 +17,7 @@ Instala dependencias.
 ```
 
 ### `gradle:dependencies`
+
 Muestra dependencias.
 
 ```bash
@@ -22,6 +25,7 @@ Muestra dependencias.
 ```
 
 ### `gradle:clean`
+
 Limpia build.
 
 ```bash
@@ -29,6 +33,7 @@ Limpia build.
 ```
 
 ### `gradle:build`
+
 Build proyecto.
 
 ```bash
@@ -36,6 +41,7 @@ Build proyecto.
 ```
 
 ### `gradle:test`
+
 Ejecuta tests.
 
 ```bash
@@ -43,6 +49,7 @@ Ejecuta tests.
 ```
 
 ### `gradle:test:allure`
+
 Ejecuta tests con Allure.
 
 ```bash
@@ -50,6 +57,7 @@ Ejecuta tests con Allure.
 ```
 
 ### `gradle:run`
+
 Ejecuta aplicación.
 
 ```bash
@@ -57,6 +65,7 @@ Ejecuta aplicación.
 ```
 
 ### `gradle:publish`
+
 Publica paquetes.
 
 ```bash
@@ -64,6 +73,7 @@ Publica paquetes.
 ```
 
 ### `gradle:environment`
+
 Configura Gradle wrapper.
 
 ```bash
@@ -73,9 +83,9 @@ curl -o gradle/wrapper/gradle-wrapper.properties https://raw.githubusercontent.c
 
 ## Variables
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `GRADLE_VERSION` | 8.14 | Versión de Gradle |
+| Variable         | Default | Descripción       |
+| ---------------- | ------- | ----------------- |
+| `GRADLE_VERSION` | 8.14    | Versión de Gradle |
 
 ## Dependencias
 

@@ -5,6 +5,7 @@ Gestión de versiones con bump-my-version.
 ## Tasks
 
 ### `version:default`
+
 Muestra la versión actual del release.
 
 ```bash
@@ -12,6 +13,7 @@ echo "Release version {{.APP_TAG}}"
 ```
 
 ### `version:major`
+
 Incrementa versión MAJOR (X.0.0).
 
 ```bash
@@ -19,6 +21,7 @@ Incrementa versión MAJOR (X.0.0).
 ```
 
 ### `version:minor`
+
 Incrementa versión MINOR (x.Y.0).
 
 ```bash
@@ -26,6 +29,7 @@ Incrementa versión MINOR (x.Y.0).
 ```
 
 ### `version:patch`
+
 Incrementa versión PATCH (x.y.Z).
 
 ```bash
@@ -33,6 +37,7 @@ Incrementa versión PATCH (x.y.Z).
 ```
 
 ### `version:pre_release`
+
 Incrementa pre_release.
 
 ```bash
@@ -41,10 +46,10 @@ Incrementa pre_release.
 
 ## Variables
 
-| Variable | Descripción |
-|----------|-------------|
-| `APP_TAG` | Tag actual del repositorio |
-| `PYTHON_PACKAGE_MANAGER` | Gestor de paquetes |
+| Variable                 | Descripción                |
+| ------------------------ | -------------------------- |
+| `APP_TAG`                | Tag actual del repositorio |
+| `PYTHON_PACKAGE_MANAGER` | Gestor de paquetes         |
 
 ## Dependencias
 

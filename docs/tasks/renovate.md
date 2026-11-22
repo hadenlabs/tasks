@@ -5,12 +5,15 @@ Ejecución de Renovate Bot en Docker.
 ## Tasks
 
 ### `renovate:check-docker`
+
 Verifica que Docker esté instalado y corriendo.
 
 ### `renovate:check-repository-format`
+
 Valida formato org/repo.
 
 ### `renovate:renovate-docker-debug`
+
 Ejecuta Renovate en Docker con debugging.
 
 ```bash
@@ -26,15 +29,15 @@ docker run --rm -it \
 
 ## Variables
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `REPOSITORY` | - | Repositorio (org/repo) |
-| `GITHUB_TOKEN` | - | Token de GitHub |
-| `LOG_LEVEL` | debug | Nivel de log |
-| `PLATFORM` | github | Plataforma (github, gitlab) |
-| `RENOVATE_IMAGE` | ghcr.io/renovatebot/renovate:latest | Imagen Docker |
-| `CONFIG_FILE_PATH` | .github/renovate.json5 | Path de config |
-| `VALIDATE_REPO` | true | Validar repo existe |
+| Variable           | Default                             | Descripción                 |
+| ------------------ | ----------------------------------- | --------------------------- |
+| `REPOSITORY`       | -                                   | Repositorio (org/repo)      |
+| `GITHUB_TOKEN`     | -                                   | Token de GitHub             |
+| `LOG_LEVEL`        | debug                               | Nivel de log                |
+| `PLATFORM`         | github                              | Plataforma (github, gitlab) |
+| `RENOVATE_IMAGE`   | ghcr.io/renovatebot/renovate:latest | Imagen Docker               |
+| `CONFIG_FILE_PATH` | .github/renovate.json5              | Path de config              |
+| `VALIDATE_REPO`    | true                                | Validar repo existe         |
 
 ## Dependencias
 

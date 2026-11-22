@@ -5,9 +5,11 @@ Gestión de proyectos Android.
 ## Tasks
 
 ### `android:check`
+
 Verifica Gradle y ANDROID_HOME.
 
 ### `android:setup`
+
 Instala dependencias.
 
 ```bash
@@ -15,6 +17,7 @@ Instala dependencias.
 ```
 
 ### `android:fmt`
+
 Formatea código con ktlint.
 
 ```bash
@@ -22,6 +25,7 @@ Formatea código con ktlint.
 ```
 
 ### `android:lint`
+
 Ejecuta linter.
 
 ```bash
@@ -29,6 +33,7 @@ Ejecuta linter.
 ```
 
 ### `android:fix`
+
 Corrige violaciones de lint.
 
 ```bash
@@ -36,6 +41,7 @@ Corrige violaciones de lint.
 ```
 
 ### `android:dependencies`
+
 Muestra dependencias.
 
 ```bash
@@ -43,6 +49,7 @@ Muestra dependencias.
 ```
 
 ### `android:clean`
+
 Limpia build.
 
 ```bash
@@ -50,6 +57,7 @@ Limpia build.
 ```
 
 ### `android:build`
+
 Build proyecto.
 
 ```bash
@@ -57,6 +65,7 @@ Build proyecto.
 ```
 
 ### `android:test`
+
 Ejecuta tests.
 
 ```bash
@@ -64,6 +73,7 @@ Ejecuta tests.
 ```
 
 ### `android:test:allure`
+
 Ejecuta tests con Allure.
 
 ```bash
@@ -71,6 +81,7 @@ Ejecuta tests con Allure.
 ```
 
 ### `android:run`
+
 Ejecuta aplicación.
 
 ```bash
@@ -78,6 +89,7 @@ Ejecuta aplicación.
 ```
 
 ### `android:publish`
+
 Publica paquetes.
 
 ```bash
@@ -86,10 +98,10 @@ Publica paquetes.
 
 ## Variables Requeridas
 
-| Variable | Descripción |
-|----------|-------------|
-| `ANDROID_HOME` | Directorio SDK de Android |
-| `GRADLE_VERSION` | Versión de Gradle |
+| Variable         | Descripción               |
+| ---------------- | ------------------------- |
+| `ANDROID_HOME`   | Directorio SDK de Android |
+| `GRADLE_VERSION` | Versión de Gradle         |
 
 ## Dependencias
 

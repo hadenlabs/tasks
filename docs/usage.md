@@ -25,23 +25,23 @@ includes:
 
 See [docs/tasks/](/docs/tasks/) for detailed documentation on each module:
 
-| Module | Description |
-|--------|-------------|
-| [changelog](/docs/tasks/changelog.md) | Changelog generation with git-chglog |
-| [git](/docs/tasks/git.md) | Git setup, ignore, reviews |
-| [pre-commit](/docs/tasks/pre-commit.md) | Pre-commit hooks management |
-| [prettier](/docs/tasks/prettier.md) | Code formatting |
-| [docker](/docs/tasks/docker.md) | Docker build & publish |
-| [terraform](/docs/tasks/terraform.md) | Terraform & tfenv |
-| [github](/docs/tasks/github.md) | GitHub CLI automation |
-| [uv](/docs/tasks/uv.md) | Python with uv |
-| [python](/docs/tasks/python.md) | Python package manager |
-| [node](/docs/tasks/node.md) | Node.js with fnm |
-| [bun](/docs/tasks/bun.md) | Bun runtime |
-| [release](/docs/tasks/release.md) | Version bumps |
-| [confluence](/docs/tasks/confluence.md) | Confluence sync |
-| [docs](/docs/tasks/docs.md) | MkDocs documentation |
-| And more... | |
+| Module                                  | Description                          |
+| --------------------------------------- | ------------------------------------ |
+| [changelog](/docs/tasks/changelog.md)   | Changelog generation with git-chglog |
+| [git](/docs/tasks/git.md)               | Git setup, ignore, reviews           |
+| [pre-commit](/docs/tasks/pre-commit.md) | Pre-commit hooks management          |
+| [prettier](/docs/tasks/prettier.md)     | Code formatting                      |
+| [docker](/docs/tasks/docker.md)         | Docker build & publish               |
+| [terraform](/docs/tasks/terraform.md)   | Terraform & tfenv                    |
+| [github](/docs/tasks/github.md)         | GitHub CLI automation                |
+| [uv](/docs/tasks/uv.md)                 | Python with uv                       |
+| [python](/docs/tasks/python.md)         | Python package manager               |
+| [node](/docs/tasks/node.md)             | Node.js with fnm                     |
+| [bun](/docs/tasks/bun.md)               | Bun runtime                          |
+| [release](/docs/tasks/release.md)       | Version bumps                        |
+| [confluence](/docs/tasks/confluence.md) | Confluence sync                      |
+| [docs](/docs/tasks/docs.md)             | MkDocs documentation                 |
+| And more...                             |                                      |
 
 ## Common Tasks
 

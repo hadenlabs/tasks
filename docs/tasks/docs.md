@@ -5,9 +5,11 @@ Generación y visualización de documentación con MkDocs y Grip.
 ## Tasks
 
 ### `docs:check`
+
 Verifica Python, package manager, mkdocs y grip.
 
 ### `docs:show`
+
 Abre README localmente en el navegador usando Grip.
 
 ```bash
@@ -15,6 +17,7 @@ Abre README localmente en el navegador usando Grip.
 ```
 
 ### `docs:build`
+
 Construye documentación con MkDocs.
 
 ```bash
@@ -22,6 +25,7 @@ Construye documentación con MkDocs.
 ```
 
 ### `docs:serve`
+
 Serve documentation locally.
 
 ```bash

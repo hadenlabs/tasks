@@ -5,9 +5,11 @@ Gestión de proyectos Java con Maven.
 ## Tasks
 
 ### `maven:check`
+
 Verifica Maven.
 
 ### `maven:setup`
+
 Instala dependencias.
 
 ```bash
@@ -15,6 +17,7 @@ Instala dependencias.
 ```
 
 ### `maven:dependencies`
+
 Muestra árbol de dependencias.
 
 ```bash
@@ -22,6 +25,7 @@ Muestra árbol de dependencias.
 ```
 
 ### `maven:clean`
+
 Limpia build.
 
 ```bash
@@ -29,6 +33,7 @@ Limpia build.
 ```
 
 ### `maven:build`
+
 Build proyecto.
 
 ```bash
@@ -36,6 +41,7 @@ Build proyecto.
 ```
 
 ### `maven:test`
+
 Ejecuta tests.
 
 ```bash
@@ -43,6 +49,7 @@ Ejecuta tests.
 ```
 
 ### `maven:test:allure`
+
 Ejecuta tests con Allure.
 
 ```bash
@@ -51,6 +58,7 @@ Ejecuta tests con Allure.
 ```
 
 ### `maven:run`
+
 Ejecuta Spring Boot.
 
 ```bash
@@ -58,6 +66,7 @@ Ejecuta Spring Boot.
 ```
 
 ### `maven:publish`
+
 Publica paquetes.
 
 ```bash
@@ -66,9 +75,9 @@ Publica paquetes.
 
 ## Variables
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `MAVEN_VERSION` | 3.9.9 | Versión de Maven |
+| Variable        | Default | Descripción      |
+| --------------- | ------- | ---------------- |
+| `MAVEN_VERSION` | 3.9.9   | Versión de Maven |
 
 ## Dependencias
 

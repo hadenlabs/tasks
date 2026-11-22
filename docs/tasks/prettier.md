@@ -5,9 +5,11 @@ Automatic code formatting with [Prettier](https://prettier.io).
 ## Tasks
 
 ### `prettier:check`
+
 Verify `prettier` is installed.
 
 ### `prettier:all`
+
 Format all supported files.
 
 ```bash
@@ -18,6 +20,7 @@ prettier --config=.ci/linters/prettier.config.cjs \
 ```
 
 ### `prettier:code`
+
 Format code files.
 
 ```bash
@@ -25,6 +28,7 @@ Format code files.
 ```
 
 ### `prettier:sass`
+
 Format Sass/SCSS files.
 
 ```bash
@@ -32,6 +36,7 @@ Format Sass/SCSS files.
 ```
 
 ### `prettier:less`
+
 Format Less files.
 
 ```bash

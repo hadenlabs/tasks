@@ -5,9 +5,11 @@ Análisis de código con SonarQube.
 ## Tasks
 
 ### `sonar:check`
+
 Verifica Docker y variables de SonarQube.
 
 ### `sonar:show`
+
 Muestra variables de SonarQube.
 
 ```bash
@@ -16,6 +18,7 @@ echo {{.SONAR_TOKEN}}
 ```
 
 ### `sonar:scan`
+
 Ejecuta scan de SonarQube.
 
 ```bash
@@ -30,10 +33,10 @@ docker run --rm \
 
 ## Variables Requeridas
 
-| Variable | Descripción |
-|----------|-------------|
-| `SONAR_URL` | URL del servidor SonarQube |
-| `SONAR_TOKEN` | Token de autenticación |
+| Variable      | Descripción                |
+| ------------- | -------------------------- |
+| `SONAR_URL`   | URL del servidor SonarQube |
+| `SONAR_TOKEN` | Token de autenticación     |
 
 ## Dependencias
 

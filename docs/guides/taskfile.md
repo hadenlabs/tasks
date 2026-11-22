@@ -73,7 +73,7 @@ tasks:
     desc: Setup dependencies
     run: once
     cmds:
-      - {{SETUP_CMD}}
+      - { { SETUP_CMD } }
     deps:
       - task: check:{{TOOL}}
 
@@ -82,7 +82,7 @@ tasks:
     desc: Internal helper to install {{TOOL}}
     run: once
     cmds:
-      - cmd: {{INSTALL_CMD}}
+      - cmd: { { INSTALL_CMD } }
         silent: true
     deps:
       - task: check:{{PREREQUISITE}}
@@ -120,7 +120,7 @@ tasks:
     desc: Run all tests
     run: once
     cmds:
-      - {{TEST_CMD}}
+      - { { TEST_CMD } }
     deps:
       - task: check:{{TEST_TOOL}}
 
@@ -157,11 +157,13 @@ tasks:
 - **Applies to**: top of every Taskfile.yml
 - **Rationale**: YAML document marker + go-task schema version. Non-negotiable.
 - **Example**:
+
   ```yaml
   ---
   version: "3"
   ```
 - **Counter-example**:
+
   ```yaml
   version: "3"
   # missing --- on line 1
@@ -173,11 +175,13 @@ tasks:
 - **Applies to**: every task not prefixed with `_` and not using `internal: true`
 - **Rationale**: Without `desc:`, the task is invisible in `task --list`.
 - **Example**:
+
   ```yaml
   fmt:
     desc: Format source files
   ```
 - **Counter-example**:
+
   ```yaml
   fmt:
     cmds:
@@ -190,12 +194,14 @@ tasks:
 - **Applies to**: all tasks except `default`
 - **Rationale**: Prevents re-execution in the same run. `default` is exempt because it orchestrates sub-tasks.
 - **Example**:
+
   ```yaml
   fmt:
     desc: Format source files
     run: once
   ```
 - **Counter-example**:
+
   ```yaml
   fmt:
     run: always
@@ -225,6 +231,7 @@ tasks:
   ```
 
 - **Counter-example**:
+
   ```yaml
   check:
     desc: Check all
@@ -239,6 +246,7 @@ tasks:
 - **Applies to**: every `check:<tool>` task
 - **Rationale**: `command -v` is POSIX-portable. The `msg:` MUST be actionable (include install command).
 - **Example**:
+
   ```yaml
   check:go:
     desc: Check if Go is installed
@@ -248,6 +256,7 @@ tasks:
         msg: "Go is not installed. Install from https://go.dev/dl/"
   ```
 - **Counter-example**:
+
   ```yaml
   check:go:
     preconditions:
@@ -261,12 +270,14 @@ tasks:
 - **Applies to**: `check:vars` and any task checking environment variables
 - **Rationale**: Bare `test {{.VAR}} == ...` fails when the variable is unset. `test -v` checks existence safely.
 - **Example**:
+
   ```yaml
   preconditions:
     - sh: test -v CI_REGISTRY_USER
       msg: "Set CI_REGISTRY_USER"
   ```
 - **Counter-example**:
+
   ```yaml
   preconditions:
     - sh: test "{{.CI_REGISTRY_USER}}" == ""
@@ -278,6 +289,7 @@ tasks:
 - **Applies to**: `fmt`, `fix`, `lint` tasks
 - **Rationale**: Ensures tools exist before execution. Use `deps` with `task: check:<tool>`.
 - **Example**:
+
   ```yaml
   fmt:
     desc: Format source files
@@ -289,6 +301,7 @@ tasks:
       - task: check:gofmt
   ```
 - **Counter-example**:
+
   ```yaml
   fmt:
     cmds:
@@ -301,12 +314,14 @@ tasks:
 - **Applies to**: `fmt`, `fix`, `lint` commands
 - **Rationale**: Gives users a way to pass extra flags. Never in test/build. Always last argument.
 - **Example**:
+
   ```yaml
   cmds:
     - cmd: >-
         ruff format ./ {{.CLI_ARGS}}
   ```
 - **Counter-example**:
+
   ```yaml
   cmds:
     - cmd: >-
@@ -319,6 +334,7 @@ tasks:
 - **Applies to**: all `cmds:` entries
 - **Rationale**: `>-` folds lines into one command (replaces newlines with spaces). `|` preserves newlines for scripts with variables, conditionals, pipes, or subshells.
 - **Example** (`>-`):
+
   ```yaml
   cmds:
     - >-
@@ -328,6 +344,7 @@ tasks:
       --file Dockerfile
   ```
 - **Example** (`|`):
+
   ```yaml
   cmds:
     - |
@@ -335,6 +352,7 @@ tasks:
       test -n "$RUN_ID" || exit 1
   ```
 - **Counter-example**:
+
   ```yaml
   cmds:
     - docker build \
@@ -348,6 +366,7 @@ tasks:
 - **Applies to**: any task not intended for direct user invocation
 - **Rationale**: Keeps `task --list` clean. Use `_` prefix convention (e.g., `_setup`).
 - **Example**:
+
   ```yaml
   _setup:
     desc: Internal helper
@@ -356,6 +375,7 @@ tasks:
       - curl -LsSf https://example.com/install.sh | sh
   ```
 - **Counter-example**:
+
   ```yaml
   setup_helper:
     desc: Internal helper
@@ -369,6 +389,7 @@ tasks:
 - **Applies to**: `default`, `summary`, `help`, or individual `cmd:` lines
 - **Rationale**: `silent: true` at task level silences ALL commands. Use `cmd:` + `silent: true` on specific noisy lines.
 - **Example**:
+
   ```yaml
   default:
     cmds:
@@ -376,6 +397,7 @@ tasks:
         silent: true
   ```
 - **Counter-example**:
+
   ```yaml
   fmt:
     silent: true
@@ -390,6 +412,7 @@ tasks:
 - **Rationale**: Single source of truth for versions. Modules reference `{{.VARIABLE_NAME}}`.
 - **Example**: Module uses `{{.GOLANG_VERSION}}` — root defines it.
 - **Counter-example**:
+
   ```yaml
   # In src/go/Taskfile.yml
   vars:
@@ -402,6 +425,7 @@ tasks:
 - **Applies to**: `setup` task
 - **Rationale**: Ensures prerequisites exist before installation commands run.
 - **Example**:
+
   ```yaml
   setup:
     desc: Setup dependencies
@@ -413,6 +437,7 @@ tasks:
       - task: _setup
   ```
 - **Counter-example**:
+
   ```yaml
   setup:
     cmds:
@@ -425,11 +450,13 @@ tasks:
 - **Applies to**: all `cmds:` entries
 - **Rationale**: `uv run command -v tool` is not a valid uv subcommand. Use `command -v tool` or `uvx`.
 - **Example**:
+
   ```yaml
   preconditions:
     - sh: command -v ruff
   ```
 - **Counter-example**:
+
   ```yaml
   preconditions:
     - sh: uv run command -v ruff
@@ -481,18 +508,18 @@ tasks:
 
 Run each check after implementing a module. ALL items MUST pass.
 
-| #   | Check                           | Command                                                                       | Expected Result                 |
+| # | Check | Command | Expected Result |
 | --- | ------------------------------- | ----------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------- | --------------------------- |
-| 1   | YAML valid                      | `python3 -c "import yaml; yaml.safe_load(open('src/<module>/Taskfile.yml'))"` | No error                        |
-| 2   | Public tasks listed             | `task -t src/<module>/Taskfile.yml --list`                                    | All public tasks show `desc:`   |
-| 3   | Check passes                    | `task -t src/<module>/Taskfile.yml check`                                     | Passes (all tools installed)    |
-| 4   | Markdown clean                  | `bunx prettier --check docs/guides/taskfile.md`                               | Clean                           |
-| 5   | No `run: always`                | `grep -c 'run: always' src/<module>/Taskfile.yml`                             | `0`                             |
-| 6   | No bare `test {{.`              | `grep -c 'test {{\.' src/<module>/Taskfile.yml`                               | `0`                             |
-| 7   | Every public task has desc      | `task -t src/<module>/Taskfile.yml --list \| grep -v desc`                    | No output (all lines have desc) |
-| 8   | No invented subcommands         | `grep -c 'uv run command' src/<module>/Taskfile.yml`                          | `0`                             |
-| 9   | No hardcoded versions in module | `grep -cE 'GOLANG_VERSION:                                                    | PYTHON_VERSION:                 | NODE_VERSION:' src/<module>/Taskfile.yml` | `0` (versions in root only) |
-| 10  | File starts with `---`          | `head -1 src/<module>/Taskfile.yml`                                           | `---`                           |
+| 1 | YAML valid | `python3 -c "import yaml; yaml.safe_load(open('src/<module>/Taskfile.yml'))"` | No error |
+| 2 | Public tasks listed | `task -t src/<module>/Taskfile.yml --list` | All public tasks show `desc:` |
+| 3 | Check passes | `task -t src/<module>/Taskfile.yml check` | Passes (all tools installed) |
+| 4 | Markdown clean | `bunx prettier --check docs/guides/taskfile.md` | Clean |
+| 5 | No `run: always` | `grep -c 'run: always' src/<module>/Taskfile.yml` | `0` |
+| 6 | No bare `test {{.` | `grep -c 'test {{\.' src/<module>/Taskfile.yml` | `0` |
+| 7 | Every public task has desc | `task -t src/<module>/Taskfile.yml --list \| grep -v desc` | No output (all lines have desc) |
+| 8 | No invented subcommands | `grep -c 'uv run command' src/<module>/Taskfile.yml` | `0` |
+| 9 | No hardcoded versions in module | `grep -cE 'GOLANG_VERSION:                                                    | PYTHON_VERSION:                 | NODE_VERSION:' src/<module>/Taskfile.yml` | `0` (versions in root only) |
+| 10 | File starts with `---` | `head -1 src/<module>/Taskfile.yml` | `---` |
 
 ### Definition of Done
 
@@ -510,7 +537,7 @@ A module is complete when:
 These are absolute prohibitions. Violating any one means the implementation is invalid.
 
 1. **Inconsistent `---` marker** — every Taskfile.yml MUST start with `---` on line 1.
-2. **Unguarded `test {{.VAR}}** — MUST use `test -v VAR` (R6). Never `test "{{.VAR}}" == ""`.
+2. **Unguarded `test {{.VAR}}** — MUST use `test -v VAR`(R6). Never`test "{{.VAR}}" == ""`.
 3. **Invented subcommands** — MUST NOT use `uv run command -v tool` or other non-existent subcommands (R14).
 4. **Duplicated checks** — MUST NOT redeclare checks from other modules (R15).
 5. **Missing `desc:`** — public tasks MUST have `desc:` (R2).

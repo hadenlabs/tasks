@@ -5,6 +5,7 @@ Gestión de recursos Kubernetes.
 ## Tasks
 
 ### `k8s:destroy-stuck-ns`
+
 Remueve finalizers de namespaces Kubernetes stuck en estado Terminating.
 
 ```bash
@@ -18,9 +19,9 @@ Remueve finalizers de namespaces Kubernetes stuck en estado Terminating.
 
 **Variables:**
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `PROXY_PORT` | 8001 | Puerto para kubectl proxy |
+| Variable     | Default | Descripción               |
+| ------------ | ------- | ------------------------- |
+| `PROXY_PORT` | 8001    | Puerto para kubectl proxy |
 
 ## Requisitos
 

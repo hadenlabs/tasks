@@ -5,9 +5,11 @@ Generate UML diagrams with PlantUML.
 ## Tasks
 
 ### `plantuml:check`
+
 Verify Docker is installed.
 
 ### `plantuml:make`
+
 Generate PlantUML diagrams using Docker.
 
 ```bash

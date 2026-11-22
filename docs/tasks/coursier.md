@@ -5,9 +5,11 @@ Gestión de dependencias Scala con [Coursier](https://get-coursier.io).
 ## Tasks
 
 ### `coursier:check`
+
 Verifica Coursier.
 
 ### `coursier:setup`
+
 Instala Coursier CLI.
 
 ```bash
