@@ -81,7 +81,7 @@ tasks:
     deps:
       - task: check
     requires:
-      vars: ["MR_NUMBER"]
+      vars: [ "MR_NUMBER" ]
 
   mr:create:
     desc: "Create a merge request"
@@ -102,7 +102,7 @@ tasks:
     deps:
       - task: check
     requires:
-      vars: ["MR_NUMBER"]
+      vars: [ "MR_NUMBER" ]
 
   issue:list:
     desc: "List issues"
@@ -123,7 +123,7 @@ tasks:
     deps:
       - task: check
     requires:
-      vars: ["ISSUE_NUMBER"]
+      vars: [ "ISSUE_NUMBER" ]
 
   issue:create:
     desc: "Create an issue"
@@ -152,7 +152,7 @@ tasks:
     deps:
       - task: check
     requires:
-      vars: ["PIPELINE_ID"]
+      vars: [ "PIPELINE_ID" ]
 
   ci:run:
     desc: "Trigger a CI/CD pipeline"

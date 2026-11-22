@@ -126,7 +126,7 @@ tasks:
       - task: check:flake
     preconditions:
       - sh: test -n "{{.CMD}}"
-        msg: "Pass the command to run, e.g.: task nix:run CMD=\"task test\""
+        msg: 'Pass the command to run, e.g.: task nix:run CMD="task test"'
 
   direnv:
     desc: Allow direnv for this project

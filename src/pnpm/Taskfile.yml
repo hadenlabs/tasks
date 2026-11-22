@@ -22,7 +22,6 @@ tasks:
       - sh: command -v curl
         msg: "Please Install curl"
 
-
   setup:
     desc: Setup pnpm dependences.
     run: once

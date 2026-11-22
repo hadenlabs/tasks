@@ -77,4 +77,4 @@ tasks:
           {{.RENOVATE_IMAGE | default "ghcr.io/renovatebot/renovate:latest"}} \
           {{.REPOSITORY}} | tee {{.LOG_FILE | default "renovate-debug.log"}}
     requires:
-      vars: ["REPOSITORY"]
+      vars: [ "REPOSITORY" ]

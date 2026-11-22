@@ -131,7 +131,7 @@ includes:
 tasks:
   # Override or extend existing tasks
   create-release:
-    deps: [gh:create-release]
+    deps: [ gh:create-release ]
     cmds:
       - echo "Additional steps after release creation..."
 

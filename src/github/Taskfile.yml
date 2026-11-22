@@ -38,7 +38,7 @@ tasks:
         git submodule update --init --recursive
         git submodule sync --recursive
     requires:
-      vars: ["ORG", "REGEXP", "TARGET_DIR"]
+      vars: [ "ORG", "REGEXP", "TARGET_DIR" ]
 
   create-release:
     desc: "Create a release on GitHub"
@@ -56,7 +56,7 @@ tasks:
         echo "Creating release $NEXT_VERSION"
         gh release create $NEXT_VERSION -F changelogs/CHANGELOG.rst
     requires:
-      vars: ["NEXT_VERSION"]
+      vars: [ "NEXT_VERSION" ]
 
   remove-git-submodules:
     desc: "Remove one or more submodules and clean up related files"
@@ -121,7 +121,7 @@ tasks:
 
         echo "Submodule removal complete"
     requires:
-      vars: ["TARGET_DIR", "REGEXP"]
+      vars: [ "TARGET_DIR", "REGEXP" ]
 
   check-gh-cli:
     desc: "Validate that the GitHub CLI (gh) is installed"
@@ -206,7 +206,7 @@ tasks:
         echo "Creating release $NEXT_VERSION with generated notes"
         gh release create "$NEXT_VERSION" --generate-notes
     requires:
-      vars: ["NEXT_VERSION"]
+      vars: [ "NEXT_VERSION" ]
 
   diff-changes:
     desc: "Show git diff excluding specified patterns (comma-separated)"
@@ -246,5 +246,5 @@ tasks:
           fi
         fi
     requires:
-      vars: ["BASE_BRANCH"]
+      vars: [ "BASE_BRANCH" ]
     silent: true
