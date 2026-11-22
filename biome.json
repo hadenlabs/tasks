@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.13/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.6/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "formatter": {
     "enabled": true,
@@ -15,6 +15,7 @@
     "useEditorconfig": true,
     "includes": [
       "**",
+      "!**/*.md",
       "!**/.next",
       "!**/.serverless",
       "!**/.serverless_nextjs",
@@ -48,12 +49,15 @@
       "!.claude/skills/*",
       "!.agents/skills/*",
       "!.skills/*",
-      "!.opencode/skills/*"
+      "!.opencode/skills/*",
+      "!openspec/**",
+      "!.codi/**",
+      "!.opencode/commands/**"
     ]
   },
   "linter": {
     "enabled": true,
-    "rules": { "preset": "recommended", "suspicious": { "noExplicitAny": "warn" } }
+    "rules": { "recommended": true, "suspicious": { "noExplicitAny": "warn" } }
   },
   "javascript": {
     "formatter": {

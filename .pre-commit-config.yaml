@@ -27,6 +27,7 @@ repos:
           - --ignore-words=.ci/linters/.codespell-ignores
         exclude: >
           (?x)^(
+          .codi\/.*$|
           AGENTS.md|
           ^\.opencode/.* |
           ^\.agents/.* |
@@ -36,6 +37,10 @@ repos:
           CHANGELOG.md|
           .claude/skills/.*/SKILL\.md$|
           skills/.*/SKILL\.md$|
+          .opencode/skills/.*/SKILL\.md$|
+          skills\/.*$|
+          skills/.*/README\.md$|
+          .*prompt.md.tpl$|
           app/components/sections\/.*$|
           app/data\/.*$|
           app/ia/datasets\/.*$|
@@ -43,6 +48,7 @@ repos:
           data/patterns\/.*$|
           docs/prompts\/.*$|
           openspec\/.*$|
+          .*__golden__/.*$|
           go.mod|
           go.sum|
           openapi.yaml|
@@ -57,8 +63,8 @@ repos:
     rev: v9.24.0
     hooks:
       - id: commitlint
-        stages: [commit-msg]
-        additional_dependencies: ["@hadenlabs/commitlint-config-core"]
+        stages: [ commit-msg ]
+        additional_dependencies: [ "@hadenlabs/commitlint-config-core" ]
         args:
           - --config=.ci/linters/.commitlintrc.json
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -101,21 +107,19 @@ repos:
     rev: lychee-v0.24.2
     hooks:
       - id: lychee-system
-        types: [markdown]
-        args:
-          - --config=.ci/linters/.lychee.toml
-          - --no-progress
-          - --root-dir=.
+        types: [ markdown ]
         exclude: >
           (?x)^(
-          .+\.docs/env-vars\.md$|
-          .+\.tpl\.md$|
-          .codi\/.*$|
-          data/patterns\/.*$|
-          docs/env-vars.md$|
-          docs\/include\/terraform.md$|
-          provision/.*/README\.md$
+            .codi/jira\/.*$|
+            .+\.tpl.sh$|
+            .+\.tpl\.md$
           )$
+        args:
+          - --config
+          - .ci/linters/.lychee.toml
+          - --no-progress
+          - --root-dir
+          - .
 
   - repo: https://github.com/hadenlabs/pre-commit-hooks
     rev: 0.6.0
