@@ -7,14 +7,13 @@
 - summary: Implementar módulo Taskfile.yml para Nix según guía taskfile.md (R1–R15) y registrar en Taskfile raíz.
 - component: DevOps
 - labels: [taskfile, nix]
-- parentEpic: 
+- parentEpic:
 - issueKey: PE-559
 - jpdSource: NIP-23
 
 ## Scenario
 
 El repositorio hadenlabs/tasks centraliza templates reutilizables de Taskfile.yml. Se necesita un módulo para Nix (src/nix/Taskfile.yml) que cumpla el contrato de determinismo de docs/guides/taskfile.md: template canónico, reglas duras R1–R15, tablas de decisión y checklist de validación, integrándose en el bloque includes: del Taskfile raíz bajo el namespace nix.
-
 
 ### Acceptance Tests
 
@@ -28,7 +27,6 @@ El repositorio hadenlabs/tasks centraliza templates reutilizables de Taskfile.ym
 8. Sin versiones hardcodeadas en el módulo (R12) y sin checks duplicados de otros módulos (R15); nunca subcomandos inventados como uv run command -v (R14).
 9. El módulo queda registrado en includes: del Taskfile.yml raíz con formato nix: ./src/nix/Taskfile.yml.
 10. Pasan los 10 items del checklist de validación (sección 4 de la guía) y task -t src/nix/Taskfile.yml --list muestra todas las tareas públicas con desc.
-
 
 ### Sources
 
