@@ -23,6 +23,7 @@ includes:
   bun: ./src/bun/Taskfile.yml
   ai: ./src/ai/Taskfile.yml
   go: ./src/go/Taskfile.yml
+  mise: ./src/mise/Taskfile.yml
   diagrams: ./provision/diagrams/Taskfile.yml
 
 env:

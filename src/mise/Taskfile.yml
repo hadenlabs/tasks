@@ -1,0 +1,59 @@
+---
+version: "3"
+
+tasks:
+  default:
+    desc: List available tasks
+    run: once
+    cmds:
+      - cmd: task --list
+        silent: true
+
+  check:
+    desc: Check all dependencies
+    run: once
+    deps:
+      - task: check:mise
+
+  check:mise:
+    desc: Check if mise is installed
+    run: once
+    preconditions:
+      - sh: command -v mise
+        msg: "mise is not installed. Install: curl -fsSL https://mise.run | sh (see https://mise.jdx.dev/)"
+
+  setup:
+    desc: Trust project config and install tools
+    run: once
+    cmds:
+      - mise trust
+      - mise install
+    env:
+      MISE_YES: "1"
+      MISE_QUIET: "1"
+    deps:
+      - task: check:mise
+
+  ls:
+    desc: List installed tool versions
+    run: once
+    cmds:
+      - mise ls
+    deps:
+      - task: check:mise
+
+  doctor:
+    desc: Run mise diagnostics
+    run: once
+    cmds:
+      - mise doctor
+    deps:
+      - task: check:mise
+
+  upgrade:
+    desc: Upgrade tools within configured ranges
+    run: once
+    cmds:
+      - mise upgrade
+    deps:
+      - task: check:mise
